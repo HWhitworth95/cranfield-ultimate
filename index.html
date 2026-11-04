@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cranfield Ultimate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2340;
+    --navy-2: #17345c;
+    --accent: #f5b301;      /* disc yellow */
+    --accent-ink: #3a2a00;
+    --teal: #1f8a8a;
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --ink: #1b2430;
+    --muted: #5d6b7c;
+    --line: #e2e6eb;
+    --side-w: 290px;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font: 16px/1.6 Inter, system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+  a { color: var(--teal); }
+  h1, h2, h3 { font-family: "Barlow Condensed", Inter, sans-serif; letter-spacing: .01em; line-height: 1.15; }
+  h2 { font-size: 1.9rem; margin: 2.2rem 0 .6rem; color: var(--navy); }
+  h3 { font-size: 1.35rem; margin: 1.4rem 0 .4rem; color: var(--navy-2); }
+
+  /* ---------- Layout ---------- */
+  .side {
+    position: fixed; inset: 0 auto 0 0; width: var(--side-w); background: var(--navy); color: #dfe7f2;
+    overflow-y: auto; z-index: 20; transition: transform .25s ease;
+  }
+  .brand { display: flex; gap: .7rem; align-items: center; padding: 1.2rem 1.2rem .8rem; text-decoration: none; color: #fff; }
+  .brand .disc { width: 38px; height: 38px; border-radius: 50%; background: var(--accent); display: grid; place-items: center;
+    color: var(--accent-ink); font: 700 1.1rem "Barlow Condensed"; box-shadow: inset 0 0 0 5px rgba(0,0,0,.08); }
+  .brand b { font: 700 1.45rem/1 "Barlow Condensed"; display: block; }
+  .brand small { color: #9fb2cc; font-size: .78rem; }
+  .search { margin: .3rem 1rem 1rem; position: relative; }
+  .search input { width: 100%; padding: .55rem .8rem; border-radius: 8px; border: 1px solid #2c4a72; background: #0b1b33; color: #fff; font: inherit; font-size: .9rem; }
+  .search input::placeholder { color: #7f95b3; }
+  .results { position: absolute; left: 0; right: 0; top: 110%; background: #fff; color: var(--ink); border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.3); max-height: 60vh; overflow: auto; display: none; }
+  .results a { display: block; padding: .5rem .8rem; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--line); font-size: .9rem; }
+  .results a small { display: block; color: var(--muted); }
+  .results a:hover, .results a.sel { background: #fff6d6; }
+  nav.menu { padding-bottom: 2rem; }
+  .grp > button { all: unset; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;
+    box-sizing: border-box; padding: .55rem 1.2rem; font: 600 .78rem Inter; letter-spacing: .09em; text-transform: uppercase; color: #9fb2cc; }
+  .grp > button:hover { color: #fff; }
+  .grp > button .chev { transition: transform .2s; }
+  .grp.closed > button .chev { transform: rotate(-90deg); }
+  .grp.closed ul { display: none; }
+  .grp ul { list-style: none; margin: 0 0 .6rem; padding: 0; }
+  .grp li a { display: block; padding: .38rem 1.2rem .38rem 1.6rem; color: #dfe7f2; text-decoration: none; font-size: .93rem; border-left: 3px solid transparent; }
+  .grp li a.sub { padding-left: 2.4rem; font-size: .88rem; color: #b9c8dc; }
+  .grp li a:hover { background: rgba(255,255,255,.06); }
+  .grp li a.on { border-left-color: var(--accent); background: rgba(245,179,1,.12); color: #fff; font-weight: 600; }
+  .grp .new { background: var(--accent); color: var(--accent-ink); font-size: .65rem; font-weight: 700; padding: 1px 6px; border-radius: 6px; margin-left: .4rem; vertical-align: 1px; }
+
+  main { margin-left: var(--side-w); min-height: 100vh; }
+  .hero { position: relative; color: #fff; padding: 4.5rem 3rem 2.2rem; background: var(--navy-2) center/cover no-repeat; }
+  .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,25,48,.35), rgba(10,25,48,.85)); }
+  .hero > * { position: relative; }
+  .crumb { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .hero h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); margin: .2rem 0 0; }
+  .content { max-width: 920px; padding: 2rem 3rem 4rem; }
+  .lede { font-size: 1.15rem; color: #34414f; }
+  .muted { color: var(--muted); }
+  .topbar { display: none; }
+
+  /* ---------- Content components ---------- */
+  figure { margin: 1.4rem 0; }
+  figure img { width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); background: #fff; display: block; cursor: zoom-in; }
+  figcaption { font-size: .88rem; color: var(--muted); margin-top: .4rem; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.2rem; margin: 1.2rem 0; }
+  .step { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .step img { width: 100%; display: block; cursor: zoom-in; background: #fff; }
+  .step .body { padding: .8rem 1rem 1rem; }
+  .step h4 { margin: 0 0 .3rem; font: 700 1.15rem "Barlow Condensed"; color: var(--navy); }
+  .step p { margin: .3rem 0; font-size: .93rem; }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.6rem; align-items: start; margin: 1.2rem 0; }
+  .split figure { margin: 0; }
+  .callout { background: #eef6f6; border-left: 4px solid var(--teal); padding: .9rem 1.1rem; border-radius: 0 var(--radius) var(--radius) 0; margin: 1.4rem 0; }
+  .callout.warn { background: #fff6dc; border-left-color: var(--accent); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin: 1.4rem 0; }
+  .card { display: block; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.2rem; text-decoration: none; color: var(--ink); transition: transform .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(15,35,64,.12); }
+  .card h3 { margin: 0 0 .3rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .92rem; }
+  table { border-collapse: collapse; width: 100%; background: var(--card); border-radius: var(--radius); overflow: hidden; }
+  th, td { text-align: left; padding: .55rem .8rem; border-bottom: 1px solid var(--line); vertical-align: top; font-size: .94rem; }
+  th { background: #eef1f5; font-weight: 600; }
+  table.simple th { width: 32%; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); margin: 1rem 0; }
+  .table-wrap table { border-radius: 0; }
+  .tick-col { text-align: center; width: 70px; }
+  input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--teal); }
+  tr.phase-base td:first-child { box-shadow: inset 4px 0 #9cc9e8; }
+  tr.phase-build td:first-child { box-shadow: inset 4px 0 #f5b301; }
+  tr.phase-sharpen td:first-child { box-shadow: inset 4px 0 #e0564b; }
+  .legend { font-size: .85rem; color: var(--muted); }
+  .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 4px; }
+  .sw.base { background: #9cc9e8; } .sw.build { background: #f5b301; } .sw.sharpen { background: #e0564b; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: .55rem .9rem; margin: .45rem 0; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .checklist label { display: flex; gap: .6rem; align-items: center; cursor: pointer; }
+  .btn { background: var(--navy); color: #fff; border: 0; padding: .55rem 1rem; border-radius: 8px; font: 600 .9rem Inter; cursor: pointer; }
+  .workout { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: .2rem 1.4rem 1rem; margin: 1.4rem 0; border-top: 5px solid var(--accent); }
+  .workout.grizzly { border-top-color: #8b5a2b; } .workout.raptor { border-top-color: var(--teal); }
+  .tag { font: 600 .75rem Inter; letter-spacing: .06em; text-transform: uppercase; background: #eef1f5; color: var(--muted); padding: 3px 8px; border-radius: 6px; vertical-align: 6px; }
+  .drill-grid, .gym-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+  .drill, .gym { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: .2rem 1.1rem .8rem; }
+  .gym ul { padding-left: 1.1rem; margin: .4rem 0; } .gym li { font-size: .93rem; margin: .2rem 0; }
+  .meta { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--teal); font-weight: 600; margin: 0; }
+  .vid { display: inline-flex; align-items: center; gap: .3rem; font-size: .8rem; font-weight: 600; text-decoration: none; background: #fdecec; color: #b42318; padding: 1px 8px; border-radius: 6px; white-space: nowrap; }
+  .vid::before { content: "▶"; font-size: .7rem; }
+  .video { margin: 1.2rem 0; }
+  .video iframe { width: 100%; aspect-ratio: 16/9; border: 0; border-radius: var(--radius); }
+  .video a.vcard { display: flex; align-items: center; gap: 1rem; background: var(--navy); color: #fff; text-decoration: none; padding: 1rem 1.2rem; border-radius: var(--radius); }
+  .video a.vcard .play { width: 46px; height: 46px; border-radius: 50%; background: #e62117; display: grid; place-items: center; font-size: 1.1rem; flex: none; }
+  .video a.vcard small { display: block; color: #9fb2cc; }
+  .pager { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+  .pager a { text-decoration: none; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: .6rem 1rem; color: var(--ink); max-width: 48%; }
+  .pager small { display: block; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; }
+  .roster { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1rem; }
+  .roster .team { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: .2rem 1.1rem .8rem; }
+  .roster .team ul { padding-left: 1.1rem; margin: .3rem 0; font-size: .92rem; columns: 2; }
+  .roster .result { color: var(--teal); font-weight: 600; font-size: .85rem; }
+  dl.glossary dt { font-weight: 700; color: var(--navy); margin-top: 1rem; }
+  dl.glossary dd { margin: .2rem 0 0; }
+  .toc { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: .8rem 1rem; margin: 0 0 1.6rem; display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; }
+  .toc b { width: 100%; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .toc button { border: 1px solid var(--line); background: #f3f5f8; border-radius: 999px; padding: .25rem .75rem; font: 500 .85rem Inter; color: var(--navy-2); cursor: pointer; }
+  .toc button:hover { background: #fff6d6; border-color: var(--accent); }
+  tr.plan-break td { background: #eef1f5; font-weight: 600; color: var(--navy-2); text-transform: uppercase; font-size: .78rem; letter-spacing: .07em; }
+  .kitgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  .kitcard { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .kitcard figure { margin: 0; } .kitcard figure img { border: 0; border-radius: 0; }
+  .kitcard .body { padding: .7rem 1rem 1rem; display: flex; justify-content: space-between; align-items: center; gap: .6rem; }
+  .kitcard h4 { margin: 0; font: 700 1.1rem "Barlow Condensed"; color: var(--navy); }
+  .video iframe[src*="drive.google"] { aspect-ratio: 16/9; }
+  .btn-link { display: inline-block; background: var(--navy); color: #fff; text-decoration: none; padding: .55rem 1rem; border-radius: 8px; font-weight: 600; font-size: .92rem; }
+  .new-inline { background: var(--accent); color: var(--accent-ink); font: 700 .7rem Inter; padding: 2px 6px; border-radius: 6px; vertical-align: 4px; }
+  ul.vids { columns: 2; padding-left: 1.1rem; } ul.vids li { margin: .25rem 0; break-inside: avoid; }
+  .roster .team figure { margin: .9rem 0 .2rem; }
+  .roster .team figure img { aspect-ratio: 4/3; object-fit: cover; }
+  .content > ul li, .content .split ul li { margin: .2rem 0; }
+  footer { color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); padding: 1.4rem 3rem 2.4rem; max-width: 920px; }
+
+
+  /* ---------- Drill library ---------- */
+  .dfilter { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin: 1rem 0 .6rem; }
+  .dfilter input[type=search] { flex: 1 1 240px; padding: .55rem .8rem; border: 1px solid var(--line); border-radius: 8px; font: inherit; }
+  .dfilter label { font-size: .9rem; color: var(--muted); display: flex; gap: .4rem; align-items: center; }
+  .dfilter select { padding: .45rem .6rem; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: #fff; }
+  .dfilter .reset { background: none; border: 0; color: var(--teal); font-weight: 600; cursor: pointer; }
+  .dfilter .row { width: 100%; display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+  .dfilter .lbl { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-right: .3rem; }
+  .dfilter details summary { cursor: pointer; list-style: none; width: 100%; margin-bottom: .3rem; }
+  .dfilter details summary em { font-style: normal; color: var(--teal); font-size: .8rem; }
+  .fchip { border: 1px solid var(--line); background: #f3f5f8; border-radius: 999px; padding: .28rem .8rem; font: 500 .84rem Inter; color: var(--ink); cursor: pointer; }
+  .fchip.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .count { color: var(--muted); font-size: .88rem; margin: .4rem 0 .8rem; }
+  .dlist { display: flex; flex-direction: column; gap: .9rem; }
+  .dcard { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1rem 1rem 1.2rem; text-decoration: none; color: var(--ink); transition: box-shadow .15s, transform .15s; }
+  .dcard:hover { box-shadow: 0 8px 24px rgba(15,35,64,.12); transform: translateY(-1px); }
+  .dcard h3 { margin: .35rem 0 .3rem; font-size: 1.35rem; }
+  .dcard h3 small { font: 400 .85rem Inter; color: var(--muted); }
+  .dcard p { margin: 0 0 .6rem; color: #3b4756; font-size: .94rem; }
+  .dthumb { border-radius: 10px; overflow: hidden; background: #e9f3ea; aspect-ratio: 4/3; display: grid; place-items: center; }
+  .dthumb img, .dthumb svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .dmeta { display: flex; gap: .45rem; align-items: center; flex-wrap: wrap; }
+  .dmeta .pl { background: #e0602b; color: #fff; font-weight: 700; font-size: .8rem; padding: 2px 9px; border-radius: 999px; }
+  .dmeta .cat { font-size: .74rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 600; color: var(--teal); }
+  .dmeta .src { font-size: .72rem; color: var(--muted); border: 1px solid var(--line); padding: 1px 7px; border-radius: 6px; }
+  .dmeta.big .pl { font-size: .9rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+  .chip { background: #eef1f5; color: #44505e; font-size: .78rem; padding: 2px 9px; border-radius: 6px; }
+  .chip.on { background: #fff1c2; color: var(--accent-ink); }
+  .back { text-decoration: none; font-weight: 600; }
+  .dsteps { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+  .dstep { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .dstep .body { padding: .7rem 1rem .9rem; } .dstep h4 { margin: 0 0 .2rem; font: 700 1.1rem "Barlow Condensed"; color: var(--navy); } .dstep p { margin: 0; font-size: .93rem; }
+  svg.dia { width: 100%; height: auto; display: block; }
+  svg.dia .g { stroke: #d4e4d5; stroke-width: .08; }
+  svg.dia .side { stroke: #7f9a82; stroke-width: .35; } svg.dia .ez { stroke: #7f9a82; stroke-width: .25; stroke-dasharray: .8 .5; }
+  svg.dia .off { fill: #17345c; } svg.dia .def { fill: #f5b301; stroke: #8a6500; stroke-width: .15; }
+  svg.dia .ol, svg.dia .dl, svg.dia .nt { font: 700 1.3px Inter, sans-serif; text-anchor: middle; }
+  svg.dia .ol { fill: #fff; } svg.dia .dl { fill: #3a2a00; font-size: 1.05px; } svg.dia .nt { fill: #5d6b7c; font-size: 1.5px; font-weight: 600; }
+  svg.dia .disc { fill: #fff; stroke: #e0602b; stroke-width: .3; }
+  svg.dia .run { fill: none; stroke: #17345c; stroke-width: .3; stroke-dasharray: .9 .55; }
+  svg.dia .drun { fill: none; stroke: #c99300; stroke-width: .3; stroke-dasharray: .9 .55; }
+  svg.dia .thr { fill: none; stroke: #e0602b; stroke-width: .35; }
+  .dkey { display: flex; gap: .4rem 1rem; flex-wrap: wrap; align-items: center; }
+  .dkey .k { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 3px; vertical-align: -2px; }
+  .dkey .k.off { background: #17345c; } .dkey .k.def { background: #f5b301; } .dkey .k.disc { background: #fff; border: 2px solid #e0602b; }
+  .dkey .k.run { width: 22px; height: 0; border-radius: 0; border-top: 2px dashed #17345c; vertical-align: 3px; }
+  .dkey .k.thr { width: 22px; height: 0; border-radius: 0; border-top: 2px solid #e0602b; vertical-align: 3px; }
+  .credit { font-size: .88rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: .8rem; margin-top: 1.6rem; }
+  @media (max-width: 700px) { .dcard { grid-template-columns: 1fr; } .dthumb { order: -1; aspect-ratio: 16/9; } }
+
+  /* Lightbox for diagrams */
+  .lb { position: fixed; inset: 0; background: rgba(5,12,24,.88); display: none; place-items: center; z-index: 50; cursor: zoom-out; padding: 2rem; }
+  .lb img { max-width: 100%; max-height: 100%; border-radius: 8px; background: #fff; }
+  .lb.open { display: grid; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 900px) {
+    .side { transform: translateX(-100%); }
+    body.nav-open .side { transform: none; box-shadow: 0 0 40px rgba(0,0,0,.4); }
+    main { margin-left: 0; }
+    .topbar { display: flex; position: sticky; top: 0; z-index: 15; background: var(--navy); color: #fff; align-items: center; gap: .8rem; padding: .6rem 1rem; }
+    .topbar button { background: none; border: 0; color: #fff; font-size: 1.5rem; cursor: pointer; }
+    .topbar b { font: 700 1.3rem "Barlow Condensed"; }
+    .hero { padding: 3rem 1.2rem 1.6rem; }
+    .content { padding: 1.4rem 1.2rem 3rem; }
+    footer { padding: 1.2rem; }
+    .split { grid-template-columns: 1fr; }
+    .roster .team ul { columns: 1; }
+  }
+</style>
+</head>
+<body>
+<aside class="side" id="side">
+  <a class="brand" href="#home"><span class="disc">CU</span><span><b>Cranfield Ultimate</b><small>Cranfield University Frisbee</small></span></a>
+  <div class="search"><input id="q" type="search" placeholder="Search drills, plays, workouts…" autocomplete="off"><div class="results" id="results"></div></div>
+  <nav class="menu" id="menu"></nav>
+</aside>
+<main>
+  <div class="topbar"><button id="burger" aria-label="Open menu">☰</button><b>Cranfield Ultimate</b></div>
+  <header class="hero" id="hero"><div class="crumb" id="crumb"></div><h1 id="title"></h1></header>
+  <article class="content" id="content"></article>
+  <footer>Cranfield Ultimate was established in 2022 by Gregor Arbuckle (Glasgow Ultimate), Huw Whitworth (Fire of London, Muntjacs), Qingqing Hua (Muntjacs, 3302) and Divyansh Sachan (Curve, Zoo). Closely linked with OUU (Open University Ultimate). Enjoy!</footer>
+</main>
+<div class="lb" id="lb"><img alt=""></div>
+
+<script src="assets.js"></script>
+<script src="fitness.js"></script>
+<script src="content.js"></script>
+<script src="drills_club.js"></script>
+<script src="drills_flik.js"></script>
+<script src="drills_ultiplays.js"></script>
+<script src="drills_ultiplays2.js"></script>
+<script src="drills.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
