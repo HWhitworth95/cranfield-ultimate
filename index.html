@@ -304,6 +304,13 @@
   .modal-box h3 { margin: 0 0 .3rem; } .modal-box label { display: block; font-weight: 600; font-size: .9rem; margin: .6rem 0; }
   .modal-box input { display: block; width: 100%; margin-top: .25rem; padding: .5rem .6rem; border: 1px solid var(--line); border-radius: 8px; font: 1rem Inter; }
   .modal-box .err { color: #c62828; font-size: .88rem; } .modal-btns { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .8rem; }
+  /* Drill library pager */
+  .dpager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .4rem; margin: 1.4rem 0 .6rem; }
+  .dpager .pg { border: 1px solid var(--teal); background: #fff; color: var(--teal); border-radius: 8px; padding: .4rem .75rem; font: 600 .9rem Inter; cursor: pointer; }
+  .dpager .pg:hover:not([disabled]) { background: var(--teal); color: #fff; }
+  .dpager .pg[disabled] { opacity: .35; cursor: default; }
+  .dpager .pg-now { padding: 0 .6rem; color: #445; }
+  .dresults { scroll-margin-top: 70px; }
   /* Coaches' how-to guide on the home page */
   .coach-guide { border: 1px solid #d6e4ea; border-left: 4px solid var(--teal); border-radius: 12px; background: #f6fafb; margin: 0 0 1.6rem; }
   .coach-guide summary { list-style: none; cursor: pointer; display: flex; gap: .8rem; align-items: center; padding: .85rem 1.1rem; }

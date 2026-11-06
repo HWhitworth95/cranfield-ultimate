@@ -459,6 +459,51 @@ ${list.length ? '' : '<p class="muted">No drills in this plan yet. Go to the <a 
   const chips = (tags, active = []) => tags.map(t => `<span class="chip${active.includes(t) ? ' on' : ''}">${esc(t)}</span>`).join('');
 
   // ---------- Library view ----------
+  // The library is split into pages of PER_PAGE drills. `page` lives in memory
+  // (not saved), so it survives opening a drill and coming back, and is reset
+  // to 1 whenever a filter changes.
+  const PER_PAGE = 20;
+  let page = 1;
+
+  // First / Previous / Page x of y / Next / Last controls.
+  function pager(pages) {
+    if (pages <= 1) return '';
+    const btn = (to, label, aria, off) =>
+      `<button type="button" class="pg" data-page="${to}" aria-label="${aria}"${off ? ' disabled' : ''}>${label}</button>`;
+    return `<nav class="dpager" aria-label="Drill pages">
+      ${btn(1, '« First', 'First page', page === 1)}${btn(page - 1, '‹ Prev', 'Previous page', page === 1)}
+      <span class="pg-now">Page <strong>${page}</strong> of ${pages}</span>
+      ${btn(page + 1, 'Next ›', 'Next page', page === pages)}${btn(pages, 'Last »', 'Last page', page === pages)}
+    </nav>`;
+  }
+
+  // Count line, the current page of drill cards and the pager, in one block so
+  // the search box can swap it without re-rendering the filters.
+  function results(shown) {
+    const pages = Math.max(1, Math.ceil(shown.length / PER_PAGE));
+    page = Math.min(Math.max(1, page), pages);
+    const from = (page - 1) * PER_PAGE;
+    const slice = shown.slice(from, from + PER_PAGE);
+    const range = shown.length > PER_PAGE ? ` · drills ${from + 1}–${from + slice.length}` : '';
+    return `<div class="dresults">
+<p class="count">Showing <strong>${shown.length}</strong> of ${DRILLS.length}${range}</p>
+<div class="dlist">
+${slice.map(d => `
+  <a class="dcard" href="#drill-${d.id}">
+    <div class="dtext">
+      <div class="dmeta">${badge(d)}${lvl(d)}<span class="cat">${esc(d.cat)}</span>${SRC[d.source] ? `<span class="src">via ${SRC[d.source]}</span>` : ''}</div>
+      <h3>${esc(d.title)}</h3>
+      <p>${esc(d.summary)}</p>
+      <div class="chips">${chips(d.tags, state.tags)}</div>
+      <div class="dfoot">${facts(d)}${pickBtn(d)}</div>
+    </div>
+    <div class="dthumb">${thumb(d)}</div>
+  </a>`).join('') || '<p class="muted">No drills match those filters.</p>'}
+</div>
+${pager(pages)}
+</div>`;
+  }
+
   function list() {
     const shown = DRILLS.filter(matches);
     const playerOpts = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 14]
@@ -483,33 +528,30 @@ ${list.length ? '' : '<p class="muted">No drills in this plan yet. Go to the <a 
   `<a class="colcard" href="#collection-${c.id}"><strong>${esc(c.title)}</strong><span>${c.ids.filter(id => BY_ID[id]).length} drills</span></a>`).join('')}
   <a class="colcard tpl" href="#session"><strong>🗒 Ready-made session plans</strong><span>${TEMPLATES.length} templates</span></a></div></div>
 ${sessionBar()}
-<p class="count">Showing <strong>${shown.length}</strong> of ${DRILLS.length}</p>
-<div class="dlist">
-${shown.map(d => `
-  <a class="dcard" href="#drill-${d.id}">
-    <div class="dtext">
-      <div class="dmeta">${badge(d)}${lvl(d)}<span class="cat">${esc(d.cat)}</span>${SRC[d.source] ? `<span class="src">via ${SRC[d.source]}</span>` : ''}</div>
-      <h3>${esc(d.title)}</h3>
-      <p>${esc(d.summary)}</p>
-      <div class="chips">${chips(d.tags, state.tags)}</div>
-      <div class="dfoot">${facts(d)}${pickBtn(d)}</div>
-    </div>
-    <div class="dthumb">${thumb(d)}</div>
-  </a>`).join('') || '<p class="muted">No drills match those filters.</p>'}
-</div>`;
+${results(shown)}`;
   }
 
   function wireList(root, rerender) {
-    const upd = () => { save(); rerender(); };
+    // Any filter change goes back to page 1.
+    const upd = () => { page = 1; save(); rerender(); };
+
+    // Pager buttons: change page, redraw just the results, scroll to their top.
+    const wirePager = () => root.querySelectorAll('.dpager [data-page]').forEach(b => b.addEventListener('click', () => {
+      page = +b.dataset.page;
+      swapResults();
+      root.querySelector('.dresults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+    // Re-render only the results block (so the search box keeps focus).
+    const swapResults = () => {
+      const tmp = document.createElement('div'); tmp.innerHTML = results(DRILLS.filter(matches));
+      root.querySelector('.dresults').replaceWith(tmp.firstElementChild);
+      wirePicks(root.querySelector('.dresults'));
+      wirePager();
+    };
+
     const q = root.querySelector('#df-q');
-    q.addEventListener('input', () => {
-      state.q = q.value; save();
-      // Re-render only the list so the search box keeps focus.
-      const tmp = document.createElement('div'); tmp.innerHTML = list();
-      root.querySelector('.dlist').replaceWith(tmp.querySelector('.dlist'));
-      root.querySelector('.count').replaceWith(tmp.querySelector('.count'));
-      wirePicks(root.querySelector('.dlist').parentNode);
-    });
+    q.addEventListener('input', () => { state.q = q.value; page = 1; save(); swapResults(); });
+    wirePager();
     root.querySelector('#df-p').addEventListener('change', e => { state.players = +e.target.value; upd(); });
     root.querySelector('#df-reset').addEventListener('click', () => { state = { q: '', players: 0, cat: '', tags: [], level: '', have: null, timed: false }; upd(); });
     root.querySelectorAll('[data-have]').forEach(b => b.addEventListener('click', () => {
@@ -589,8 +631,8 @@ ${creditLine(d)}`;
 
   window.DrillLib = {
     list, detail, wireList, BY_ID, LEGACY, session, wireSession, wirePicks, loadShared, forPage, collection, wireCollection, diagram, planData,
-    setTag(tag) { state = { q: '', players: 0, cat: '', tags: [tag], level: '' }; save(); },
-    setCategory(cat) { state = { q: '', players: 0, cat, tags: [], level: '' }; save(); },
+    setTag(tag) { state = { q: '', players: 0, cat: '', tags: [tag], level: '' }; page = 1; save(); },
+    setCategory(cat) { state = { q: '', players: 0, cat, tags: [], level: '' }; page = 1; save(); },
     // For site search.
     index: DRILLS.map(d => ({ slug: 'drill-' + d.id, title: d.title, group: 'Drill · ' + d.cat,
       text: (d.title + ' ' + d.summary + ' ' + d.tags.join(' ') + ' ' + (d.html || '') + ' ' + (d.setup || '')).replace(/<[^>]+>/g, ' ').toLowerCase() })),
