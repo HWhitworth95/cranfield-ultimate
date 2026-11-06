@@ -43,7 +43,7 @@ ULTI_DRILLS.push(
     setup: 'A has the disc in the middle. Stack straight downfield: B at the front 5–8 m away, C behind B, E behind C, then the rest.',
     steps: [
       { text: 'B and C cut hard away from the stack, one to each side, pulling the nearest defenders with them.',
-        dia: { view: [4, 8, 32, 46], o: [['A', 18, 40], ['B', 18, 33], ['C', 18, 30], ['E', 18, 27], ['F', 18, 24], ['G', 18, 21]], d: [['', 17.2, 31.5], ['', 18.8, 28.5]], disc: 'A',
+        dia: { view: [4, 8, 32, 46], o: [['A', 18, 40], ['B', 18, 33], ['C', 18, 30], ['E', 18, 27], ['F', 18, 24], ['G', 18, 21]], d: [['', 15.4, 32], ['', 20.6, 29]], disc: 'A',
           run: [[18, 33, 9, 31, 0], [18, 30, 27, 28, 0]] } },
       { text: 'E now has a clear lane and cuts straight at the disc through the gap for the gut pass.',
         dia: { view: [4, 8, 32, 46], o: [['A', 18, 40], ['B', 9, 31], ['C', 27, 28], ['E', 18, 27], ['F', 18, 24], ['G', 18, 21]], disc: 'A',
@@ -386,7 +386,7 @@ ULTI_DRILLS.push(
       { text: 'Whoever is moving forward hucks with their momentum (a forehand here) as C cuts deep.',
         dia: { view: [4, 0, 32, 46], o: [['A', 16, 33], ['B', 20, 29], ['C', 10, 16]], disc: 'B', run: [[10, 16, 9, 4, 0]], throw: [[20, 29, 9.5, 4.5, 3]] } },
       { text: 'Defended version: play small-ball against three zone defenders; whoever gets ahead of them looks to huck.',
-        dia: { view: [4, 0, 32, 46], o: [['A', 16, 36], ['B', 20, 33], ['E', 13, 30], ['C', 22, 14]], d: [['', 15, 34], ['', 19, 31], ['', 17, 29]], disc: 'B' } },
+        dia: { view: [4, 0, 32, 46], o: [['A', 16, 36], ['B', 20, 33], ['E', 13, 30], ['C', 22, 14]], d: [['', 17, 30.5], ['', 22.5, 29], ['', 11.5, 26]], disc: 'B' } },
     ],
     tips: ['Choose the throw that matches your momentum; it\'s the most reliable huck.'],
   },

@@ -51,9 +51,29 @@
   const KIT = EQUIP.map(([n]) => n).filter(n => DRILLS.some(d => d.equip.includes(n)));
   // Fit every diagram of a drill to the union of its action (players, cones,
   // arrow ends) with padding, so all steps share one tight, consistent frame.
+  // A marker or defender drawn right on top of an attacker hides both labels.
+  // Push any defender that overlaps an offence circle out until the two just
+  // touch, and move the start of any defender run that began at the old spot.
+  function separateDefenders(dia) {
+    const MIN = 2.5; // centre-to-centre distance at which two circles touch (m)
+    (dia.d || []).forEach(def => {
+      const [, dx, dy] = def;
+      let near = null, best = MIN;
+      (dia.o || []).forEach(([, ox, oy]) => { const dd = Math.hypot(dx - ox, dy - oy); if (dd < best) { best = dd; near = [ox, oy]; } });
+      if (!near) return;
+      let vx = dx - near[0], vy = dy - near[1];
+      if (Math.hypot(vx, vy) < 0.01) { vx = 0; vy = -1; } // exactly on top: lift the defender
+      const k = MIN / Math.hypot(vx, vy);
+      const nx = near[0] + vx * k, ny = near[1] + vy * k;
+      (dia.drun || []).forEach(c => { if (Math.hypot(c[0] - dx, c[1] - dy) < 1.6) { c[0] = nx; c[1] = ny; } });
+      def[1] = nx; def[2] = ny;
+    });
+  }
+
   function fitViews(d) {
     if (!d.steps) return;
     const dias = d.steps.map(st => st.dia).filter(Boolean);
+    dias.forEach(separateDefenders);
     if (!dias.length || dias.some(x => x.pitch)) return; // full mini-pitch drawings keep their frame
     const xs = [], ys = [];
     const add = (x, y) => { xs.push(x); ys.push(y); };
@@ -61,7 +81,9 @@
       ['o', 'd'].forEach(k => (x[k] || []).forEach(([, px, py]) => add(px, py)));
       (x.cones || []).forEach(([cx, cy]) => add(cx, cy));
       [].concat(x.ez ?? []).forEach(y => ys.push(y - 2));
-      ['run', 'drun', 'throw'].forEach(k => (x[k] || []).forEach(([x1, y1, x2, y2]) => { add(x1, y1); add(x2, y2); }));
+      ['run', 'drun', 'throw', 'opt'].forEach(k => (x[k] || []).forEach(([x1, y1, x2, y2]) => { add(x1, y1); add(x2, y2); }));
+      // Notes are centred text (1.5 m font): keep their whole width in frame.
+      (x.note || []).forEach(([t, nx, ny]) => { const half = String(t).length * 0.42 + 0.3; add(nx - half, ny - 1.4); add(nx + half, ny + 0.6); });
     });
     const pad = 3.5;
     let x0 = Math.min(...xs) - pad, x1 = Math.max(...xs) + pad, y0 = Math.min(...ys) - pad, y1 = Math.max(...ys) + pad;
@@ -142,6 +164,16 @@
     // Endzone line(s): the endzone is the area above the line.
     [].concat(dia.ez ?? []).forEach(y => parts.push(`<rect x="${x0}" y="${y0}" width="${w}" height="${Math.max(0, y - y0)}" fill="#dcebdd"/><line x1="${x0}" y1="${y}" x2="${x1}" y2="${y}" class="ez"/>`));
     (dia.cones || []).forEach(([x, y]) => parts.push(`<path d="M${x},${y - 0.9} L${x + 0.8},${y + 0.6} L${x - 0.8},${y + 0.6} Z" fill="#f08a24"/>`));
+    // A run that starts away from every player continues a move from the
+    // previous step: mark where that player came from with a faint outline.
+    {
+      const at = [...(dia.o || []), ...(dia.d || [])].map(([, x, y]) => [x, y]);
+      const moves = [['run', 'ghost'], ['opt', 'ghost'], ['drun', 'ghost dg']];
+      const ends = [...moves.map(([k]) => k), 'throw'].flatMap(k => (dia[k] || []).map(c => [c[2], c[3]]));
+      moves.forEach(([k, cls]) => (dia[k] || []).forEach(([x, y]) => {
+        if (![...at, ...ends].some(([px, py]) => Math.hypot(px - x, py - y) < 3)) parts.push(`<circle cx="${x}" cy="${y}" r="${r}" class="${cls}"/>`);
+      }));
+    }
     (dia.run || []).forEach(c => parts.push(`<path d="${curve(c)}" class="run" marker-end="url(#ar)"/>`));
     (dia.drun || []).forEach(c => parts.push(`<path d="${curve(c)}" class="drun" marker-end="url(#ad)"/>`));
     (dia.throw || []).forEach(c => parts.push(`<path d="${curve(c)}" class="thr" marker-end="url(#at)"/>`));
@@ -592,7 +624,9 @@ ${results(shown)}`;
       case 'football':
         return '<p class="credit">A standard American football defensive-back / combine drill, adapted for ultimate.</p>';
       default:
-        return '';
+        // Club drills: credit any outside source the write-up drew on.
+        return (d.credits || []).length
+          ? `<p class="credit">Written up with help from ${d.credits.map(([t, u]) => link(u, esc(t))).join(' and ')}.</p>` : '';
     }
   }
 
@@ -613,7 +647,7 @@ ${d.steps.length ? `<h2>${d.steps.length > 1 ? 'Steps' : 'How it runs'}</h2>` : 
 <div class="dsteps">${d.steps.map((s, i) => `
   <div class="dstep">${s.dia ? diagram(s.dia) : ''}<div class="body">${d.steps.length > 1 ? `<h4>Step ${i + 1}</h4>` : ''}<p>${esc(s.text)}</p></div></div>`).join('')}
 </div>
-${d.steps.length ? '' : '<!--'}<p class="legend dkey"><span class="k off"></span>Offence <span class="k def"></span>Defence <span class="k disc"></span>Disc <span class="k run"></span>Run <span class="k thr"></span>Throw <span class="k opt"></span>Optional run <span class="k cone"></span>Cone</p>${d.steps.length ? '' : '-->'}
+${d.steps.length ? '' : '<!--'}<p class="legend dkey"><span class="k off"></span>Offence <span class="k def"></span>Defence <span class="k disc"></span>Disc <span class="k run"></span>Run <span class="k thr"></span>Throw <span class="k opt"></span>Optional run <span class="k cone"></span>Cone <span class="k ghost"></span>Where a player moved from</p>${d.steps.length ? '' : '-->'}
 ${d.progressions ? `<h2>Progressions</h2><ul>${d.progressions.map(r => `<li>${esc(r)}</li>`).join('')}</ul>` : ''}
 ${(d.tips || []).length ? `<h2>Coaching points</h2><ul>${d.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
 ${d.source === 'playspedia' ? `<p><a class="btn-link" href="${d.url}" target="_blank" rel="noopener">▶ Watch the animation on Playspedia</a></p>` : ''}

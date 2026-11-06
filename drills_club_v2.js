@@ -45,7 +45,7 @@ const CLUB_V2 = {
   'pivot-n-fake': {
     setup: 'Pairs, one disc, about 10 m apart. Your partner stands in the swing position.',
     steps: [{ text: 'Start looking upfield, then pivot to face your partner and throw a backhand or forehand. If your partner puts their hand up before the disc leaves your hand, pump-fake, pivot and throw the other side.',
-      dia: { view: CV, o: [['A', 14, 32], ['B', 24, 30]], disc: 'A', opt: [[14, 32, 14, 24, 0]], throw: [[14, 32, 23.2, 30, -1]] } }],
+      dia: { view: CV, o: [['A', 14, 32], ['B', 24, 30]], disc: 'A', throw: [[14, 32, 23.2, 30, -1]], note: [['starts facing upfield ↑', 14, 26]] } }],
     tips: ['Works the fundamentals of throwing, faking and pivoting. Pivot properly.'],
   },
   'break-throwing': {
@@ -56,13 +56,14 @@ const CLUB_V2 = {
         dia: { view: CV, cones: [[10, 14], [18, 14], [26, 14]], o: [['H1', 12, 42], ['H2', 24, 42], ['C', 16, 42], ['C', 20, 42]], d: [['M', 10.5, 41], ['M', 25.5, 41]], disc: 'H1',
           run: [[16, 42, 16.5, 15, 0], [16.5, 15, 7, 31, 1]], throw: [[12, 42, 7.5, 31.8, 2]] } },
       { text: 'V2, with defenders: defenders wait at the cone line. The cutter runs out, slaps hands with a defender, and then the defender is live.',
-        dia: { view: CV, cones: [[10, 14], [18, 14], [26, 14]], o: [['H1', 12, 42], ['H2', 24, 42], ['C', 20.5, 16]], d: [['M', 10.5, 41], ['M', 25.5, 41], ['D', 17, 13], ['D', 19.5, 13]], disc: 'H2',
-          run: [[20.5, 16, 30, 31, -1]], drun: [[19.5, 13.5, 28, 29, -1]], throw: [[24, 42, 29.5, 31.8, -2]] } },
+        dia: { view: CV, cones: [[10, 14], [18, 14], [26, 14]], o: [['H1', 12, 42], ['H2', 24, 42], ['C', 20.5, 16]], d: [['M', 10.5, 41], ['M', 25.5, 41], ['D', 14, 11.5], ['D', 23.5, 12.5]], disc: 'H2',
+          run: [[20.5, 16, 30, 31, -1]], drun: [[23.5, 12.5, 28.5, 28.5, -1]], throw: [[24, 42, 29.5, 31.8, -2]] } },
     ],
     tips: ['V1 is mostly about throwing the break: ideally the inside break, with an around rather than a low release.',
       'V2 needs more thinking: if the defender is tight on the inside on the backhand, pivot round for the flick into space. It\'s about where the defender is and what the best throw is.'],
   },
   'box-drill': {
+    summary: 'Four queues on the corners of a square: V-cut, catch near the next cone and keep the disc moving round the box.',
     setup: 'Four cones in a square with a queue at each corner. The original diagram suggests 9 or more players.',
     steps: [{ text: 'The cutter makes a V cut out of the square and in, or into the square and out, aiming to catch near the next cone. The thrower throws; the next cut is already underway before they catch.',
       dia: { view: CV, cones: [[10, 16], [26, 16], [10, 32], [26, 32]], o: [['A', 8, 14], ['B', 28, 14], ['C', 8, 34], ['D', 28, 34], ['X', 26, 18]], disc: 'B',
@@ -72,6 +73,7 @@ const CLUB_V2 = {
       'Avoid running into the previous cutter if you\'re both heading for the centre. Queues stay heads-up when the disc is coming their way.'],
   },
   'swiss-drill': {
+    summary: 'Two stacks and a thrower: cutters come out of the far stack to receive, then clear back into the middle, so you throw in different directions.',
     setup: 'Two stacks side by side, each with a cone at the front, and a thrower out to the side.',
     steps: [
       { text: 'The thrower throws to a cutter who cuts out from the far stack; the cutter clears back out into the middle afterwards.',
@@ -97,17 +99,19 @@ const CLUB_V2 = {
       'Throw for your cutter: are they fast or a bit slower?'],
   },
   'diagonal-lead-passes': {
+    summary: 'Two queues at opposite corners: lead passes to cutters going deep on the open side, or upfield on the break side.',
     setup: 'Two queues at diagonally opposite corners, each with a thrower and a marker. Cuts go to the open or break side.',
     srcnote: 'Spacing isn\'t given; the diagrams are schematic versions of the originals.',
     steps: [
-      { text: 'Open-side cut (right-handed backhand force): the cutter clears to the break side, then goes deep on the open side for a lead pass. They join the back of the opposite queue; keep the flow going with a throw to the last in that queue.',
+      { text: 'Open-side cut (right-handed backhand force): the cutter clears to the break side, then goes deep on the open side for a lead pass. They join the back of the opposite queue; keep the flow going with a throw to the last in that queue. The thrower becomes the next cutter.',
         dia: { view: CV, o: [['H2', 24, 40], ['P1', 12, 24], ['Q', 10, 21], ['Q', 26, 43]], d: [['M', 25, 38.5]], disc: 'H2', run: [[12, 24, 7, 30, 0], [7, 30, 16, 14, 0]], throw: [[24, 40, 16.5, 15, 3]] } },
-      { text: 'Break-side cut (forehand force): the dump handler retreats, then cuts upfield on the break side and receives a break-throw lead pass. The thrower becomes the dump. The thrower becomes the next cutter.',
+      { text: 'Break-side cut (forehand force): the dump handler retreats, then cuts upfield on the break side and receives a break-throw lead pass. The thrower becomes the dump. Keep the flow going by passing to the back of the queue after the catch.',
         dia: { view: CV, o: [['H2', 24, 40], ['P1', 14, 26], ['Q', 10, 21], ['Q', 26, 43]], d: [['M', 23, 38.5]], disc: 'H2', run: [[14, 26, 10, 31, 0], [10, 31, 19, 18, 0]], throw: [[24, 40, 19.5, 18.8, -4]] } },
     ],
     tips: ['Break-side throws can be flat and flowing, or high and arcing, banked outside-in.'],
   },
   'x-drill': {
+    summary: 'Two stacks, one disc: cut diagonally, catch the lead pass, and the thrower immediately cuts the other way for the swing.',
     setup: 'Two stacks about 10 m apart, one disc (with the right-hand stack).',
     steps: [
       { text: 'The front of the left stack cuts diagonally up the line; the right stack throws just in front of them.',
@@ -122,18 +126,19 @@ const CLUB_V2 = {
     steps: [
       { text: 'The cutter sprints to the near cone. The thrower fakes, the cutter turns and sprints to the opposite cone, and the thrower breaks the mark with a leading pass.',
         dia: { view: CV, cones: [[7, 16], [29, 16], [7, 34], [29, 34]], o: [['H', 29, 34], ['C', 18, 16]], d: [['M', 27.5, 33]], disc: 'H', run: [[18, 16, 28, 16, 0], [28, 16.5, 8, 16.5, 0]], throw: [[29, 34, 9, 17.5, 5]] } },
-      { text: 'The thrower then cuts to the opposite cone; the receiver fakes, so the "handler" cuts back to receive a leading pass. Repeat with the force and thrower swapped.',
+      { text: 'Roles reverse: the old thrower cuts to the opposite cone, the player now holding the disc fakes, and the cutter turns back for a leading pass. Then swap who forces and who throws, and repeat.',
         dia: { view: CV, cones: [[7, 16], [29, 16], [7, 34], [29, 34]], o: [['H', 29, 34], ['C', 8, 16.5]], disc: 'C', run: [[29, 34, 8, 33, 0]], throw: [[8, 16.5, 9, 32.5, -2]] } },
     ],
   },
 
   'wipers': {
-    setup: 'Three players. Picture a triangle about 10 feet a side: a cone on two corners, and the thrower and a marker on the third.',
+    setup: 'Three players. Picture a small triangle about 10 feet (3 m) a side: a cone on two corners, and the thrower and a marker on the third.',
     steps: [{ text: 'The receiver swings back and forth between the two cones: catch near one cone, throw it back, run to the other cone, catch and throw back. Keep going for a couple of minutes.',
       dia: { view: CV, cones: [[10, 18], [26, 18]], o: [['C', 11, 19.5], ['H', 18, 34]], d: [['M', 18, 31.8]], disc: 'H', run: [[11, 19.5, 25, 19.5, 0]], throw: [[18, 34, 24.5, 21, -1]], note: [['about 10 ft a side (not to scale)', 18, 14]] } }],
     tips: ['The marker shouldn\'t mark hard: just stand still, crouched slightly, arms out.', 'The receiver has to stretch both ways, so it works quick left- and right-handed catches.', 'The thrower has to throw forehands and backhands quickly.'],
   },
   'continuations-to-huck': {
+    summary: 'A chain of short up-line continuations with touch, finishing with a huck to the last cutter sprinting deep.',
     setup: 'Two stacks of equal size: a thrower with the disc on one side, and cutters on cones on the other.',
     srcnote: 'The diagram is a schematic version of the original.',
     steps: [
@@ -160,6 +165,7 @@ const CLUB_V2 = {
     tips: ['The point is choosing the best throw for the situation to land in the target space.'],
   },
   'under-cuts': {
+    summary: 'The cutter drives upfield, the thrower fakes and calls "nope", and the cutter snaps back under for an up-line lead pass.',
     setup: 'Two stacks, each with a cone at the front. A light outwards force on the thrower.',
     steps: [{ text: 'The first cutter goes up the field; the thrower fakes and shouts "nope". The cutter turns sharply and comes under for an up-line leading pass to the chest. The thrower then cuts upfield.',
       dia: { view: CV, cones: [[10, 36], [26, 36]], o: [['C', 10, 36], ['Q', 10, 39], ['H', 26, 36], ['Q', 26, 39]], d: [['M', 27.3, 35]], disc: 'H',
@@ -167,19 +173,20 @@ const CLUB_V2 = {
     tips: ['We want the force to make the throw harder, but not to be very active.'],
   },
   'three-player-weave': {
-    setup: 'Three players (A, B, C) and one disc, working up the field in two lanes.',
-    steps: [{ text: 'Throws to your right are forehands (or lefty backhands); throws to your left are backhands. Follow your throw to the other side and keep running straight on that side until the player who was behind you throws it back. Then throw again to the player you first threw to, now from the other side.',
-      dia: { view: CV, o: [['A', 10, 44], ['B', 26, 40], ['C', 10, 48]], disc: 'A', run: [[10, 44, 26, 38, 0], [26, 40, 26, 30, 0], [10, 48, 10, 33, 0]], throw: [[10, 44, 25.5, 31, -1], [26, 30, 10.8, 33.5, 1]] } }],
+    setup: 'Three players and one disc, running up the field in two lanes about 15 m apart. A starts in the left lane with the disc and C behind them; B is a few metres ahead in the right lane.',
+    steps: [{ text: 'A throws across to B, then runs over to the right lane and keeps running upfield. B throws across to C (now running up the left lane) and crosses to the left. C throws to A and crosses, and so on: every throw goes across the field, the thrower follows it to the other lane, and each of you keeps receiving from the same player. Throws to your right are forehands (or lefty backhands); throws to your left are backhands.',
+      dia: { view: CV, o: [['A', 10, 44], ['B', 26, 38], ['C', 10, 48]], disc: 'A', run: [[10, 44, 25, 45, 0], [25, 45, 25, 40.5, 0], [26, 38, 26, 29, 0], [10, 48, 10, 31, 0]], throw: [[10, 44, 25.5, 30, -1], [26, 29, 10.8, 31.5, 1]], note: [['1', 18, 35], ['2', 18, 28.5]] } }],
   },
   'attack-the-under': {
-    setup: 'Two cones; two players (P1 and P2) with a disc.',
+    setup: 'Two cones in a line; P1 at the front cone, P2 behind them with the disc.',
     srcnote: 'The diagram is a schematic version of the original.',
-    steps: [{ text: 'P1 backpedals for 3 s, side-steps into crossovers for 3 s, sprints for 3 s, then hard-stops and cuts back under at 45° to attack the disc as if for an interception. P1 throws back to the advancing P2, then cuts behind P2 towards the starting cone for a short leading pass. Then P2 backpedals and repeats.',
+    steps: [{ text: 'P1 backpedals for 3 s, side-steps into crossovers for 3 s, sprints for 3 s, then hard-stops and cuts back under at 45°. P2 throws as P1 turns, and P1 attacks the disc as if for an interception. P1 throws back to the advancing P2, then cuts behind P2 towards the starting cone for a short leading pass. Then P2 backpedals and repeats.',
       dia: { view: CV, cones: [[18, 44], [18, 30]], o: [['P1', 18, 42], ['P2', 18, 47]], disc: 'P2', run: [[18, 42, 18, 30, 0], [18, 30, 18, 18, 0], [18, 18, 24, 24, 0], [24, 24, 13, 38, 1]], throw: [[18, 47, 23.5, 24.5, -2]] } }],
     rotation: 'Each player cuts twice, so the crossover sprints face both sides.',
   },
   'ho-diamonds-pistons': {
-    setup: 'A thrower (T) with a marker, and three cutters in a horizontal stack (3 on the left, 1 in the middle, 2 on the right).',
+    players: '5+',
+    setup: 'A thrower (T) with a marker, and three cutters in a horizontal stack. Cutters are numbered by the order they catch: 3 on the left, 1 in the middle, 2 on the right. Others queue behind the thrower.',
     srcnote: 'The original pages show these patterns as diagrams only; the descriptions are our reading of them.',
     rotation: 'Thrower → P1 → P2 → P3 → rejoin the throwing queue.',
     steps: [
@@ -192,6 +199,7 @@ const CLUB_V2 = {
     ],
   },
   'hillman': {
+    summary: 'One-on-one in a box: the cutter has two cuts to get free, while a tight defender uses their body to shut off the open-side under.',
     setup: 'A box in the middle of the pitch, with pairs queuing either side. B (offence) throws with A marking; D (offence) is in the box, guarded by C.',
     rules: ['D must get free and receive the disc in two cuts or less.', 'The offence can set up anywhere in the box, but the whole pitch is in play for the threat space.'],
     steps: [{ text: 'C uses their body to dictate where D can go; D cuts one way, then back, and B throws to space.',
@@ -200,6 +208,7 @@ const CLUB_V2 = {
     tips: ['Defence: tight, chest-to-chest. Take the hit when they try to run through you.', 'The deep threat isn\'t the biggest concern: stop the open-side under at all costs.'],
   },
   'upline-break-cuts': {
+    summary: 'The off-handler cuts up the line on the break side, then stack cutters keep the disc moving with continuations up that side.',
     setup: 'Two handlers (B with the disc on the break side, A on the open side) and a horizontal stack, all with defenders (the stack defenders on the open side).',
     srcnote: 'The original page shows this as diagrams only; the descriptions are our reading of them.',
     steps: [
@@ -212,6 +221,7 @@ const CLUB_V2 = {
     ],
   },
   'upline-slash-deep': {
+    summary: 'After an up-line handler catch, look deep first, then to a cutter slashing across the field.',
     setup: 'Two handlers with defenders (B with the disc on one side, A on the other) and cutters downfield.',
     srcnote: 'The original page shows this as diagrams only; the descriptions are our reading of them.',
     steps: [
@@ -241,20 +251,21 @@ const CLUB_V2 = {
         dia: { view: CV, o: [['H2', 32, 39], ['T', 6, 26], ['M', 19.5, 26], ['B', 32.5, 13]], d: [['', 33, 37.5], ['', 5, 25], ['', 18.5, 25], ['', 31, 13]], disc: 'H2',
           run: [[19.5, 26, 33, 28, 0], [32.5, 13, 21, 25, 0]], throw: [[32, 39, 32.8, 28.8, 1]] } },
       { text: 'Phase 3: look for the reset. The new dump handler gets free by cutting up the line, or by faking up the line and going back, and the process starts again.',
-        dia: { view: CV, o: [['H2', 32, 39], ['D', 23, 37]], d: [['', 33, 37.5], ['', 22, 36]], disc: 'H2', opt: [[23, 37, 34, 31.5, 1], [23, 37, 27, 41, -1]], note: [['option 1', 30, 30], ['option 2', 24, 43]] } },
+        dia: { view: CV, o: [['H2', 32, 39], ['H1', 23, 37]], d: [['', 33, 37.5], ['', 22, 36]], disc: 'H2', opt: [[23, 37, 34, 31.5, 1], [23, 37, 27, 41, -1]], note: [['option 1', 30, 30], ['option 2', 24, 43]] } },
     ],
   },
   'mushroom': {
     setup: 'One line in the front middle of the endzone. A starts with the disc 10 yards in front of the line. 6+ players, 1 disc.',
     steps: [
       { text: 'B makes a two-step juke cut to the forehand side and A throws a forehand to B.',
-        dia: { view: CV, ez: 20, o: [['A', 12, 31], ['B', 18, 19], ['C', 18, 16], ['', 18, 13], ['', 18, 10]], disc: 'A', run: [[18, 19, 17, 22, 0], [17, 22, 25, 29, 1]], throw: [[12, 31, 24.5, 29.8, -1]] } },
+        dia: { view: CV, ez: 20, o: [['A', 12, 31], ['B', 18, 19], ['C', 18, 16], ['D', 18, 13], ['E', 18, 10]], disc: 'A', run: [[18, 19, 17, 22, 0], [17, 22, 25, 29, 1]], throw: [[12, 31, 24.5, 29.8, -1]] } },
       { text: 'C makes a two-step juke cut to continue the pass. Once a player catches in the endzone, the next cut is a dump cut in the opposite direction. Continue back and forth.',
-        dia: { view: CV, ez: 20, o: [['B', 25, 29], ['C', 18, 16], ['', 18, 13], ['', 18, 10]], disc: 'B', run: [[18, 16, 19, 21, 0], [19, 21, 29, 17, -1]], throw: [[25, 29, 28.5, 17.8, -1]] } },
+        dia: { view: CV, ez: 20, o: [['B', 25, 29], ['C', 18, 16], ['D', 18, 13], ['E', 18, 10]], disc: 'B', run: [[18, 16, 19, 21, 0], [19, 21, 29, 17, -1]], throw: [[25, 29, 28.5, 17.8, -1]] } },
     ],
     tips: ['Practises dumping and swinging, and throwing to a moving receiver.'],
   },
   'seattle': {
+    summary: 'Two lines in the endzone: juke for the swing, score in the front corner, dump back and go again, corner to corner.',
     alsoFrom: [['USA Ultimate, Skills and Drills Manual (revised 2019): "Endzone"', 'https://archive.usaultimate.org/assets/1/Page/Skills%20and%20Drills%20manual_revised2019.pdf']],
     level: 'Beginner', levelSrc: 'USA Ultimate manual: Beginner–Intermediate',
     setup: 'Two lines: one in the front middle of the endzone, one in the back middle. A1 starts with the disc 10 yards from line A. 7+ players, 1 disc.',
@@ -288,13 +299,15 @@ const CLUB_V2 = {
     rotation: 'The receiver brings the disc back, then the receiver and defender swap lines. Everyone throws five passes.',
     steps: [
       { text: 'The first receiver steps out. The first defender sets up to force them either deep or back to the disc, and says which.',
-        dia: { view: CV, side: 'right', o: [['H', 35.5, 44], ['O1', 25, 27], ['O2', 22, 27]], d: [['M', 34, 43], ['D1', 25, 29.5], ['D2', 22, 29.5]], disc: 'H', run: [[25, 27, 28, 25, 0]], drun: [[25, 29.5, 28, 26.5, 0]] } },
+        dia: { view: CV, side: 'right', o: [['H', 35.5, 44], ['O1', 25, 26], ['O2', 21, 26]], d: [['M', 34, 43], ['D1', 25, 30], ['D2', 21, 30]], disc: 'H', run: [[25, 26, 28, 23, 0]], drun: [[25, 30, 28, 27, 0]] } },
       { text: 'The thrower checks the disc in. The receiver cuts any way they like to get open; the defender covers; the thrower throws.',
         dia: { view: CV, side: 'right', o: [['H', 35.5, 44], ['O1', 28, 25]], d: [['M', 34, 43], ['D1', 28, 26.5]], disc: 'H', run: [[28, 25, 31, 34, 1]], drun: [[28, 26.5, 30, 33, 1]], opt: [[28, 25, 24, 10, 1]], throw: [[35.5, 44, 31.5, 34.8, 1]] } },
     ],
     tips: ['Practises defensive positioning, cutting, and catching while defended.'],
   },
   'positioning-triangle': {
+    summary: 'A cutter runs deep, under and a break-side clear round a cone triangle while the defender works on hip turns and staying on the open side.',
+    players: '3+',
     setup: 'Three cones in a triangle about 10 yards apart. A thrower with a forehand force; an attacker and defender start at the left (break-side) cone.',
     steps: [{ text: 'Cut deep to the far cone, plant and come under to the near cone, then clear to the break side as you would in a game (keep eye contact with the thrower; it\'s a live option). At the far-left cone, sprint deep for a long forehand.',
       dia: { view: CV, cones: [[9, 30], [18, 20], [27, 30]], o: [['A', 8, 31], ['H', 32, 44]], d: [['D', 10, 32]], disc: 'H',
@@ -318,27 +331,44 @@ const CLUB_V2 = {
   },
   'hockey-stop': {
     videos: [{ yt: '-QIQe2_Rr_s' }, { yt: 'JY-mgxRhqlU' }],
-    setup: 'Space to move laterally; see the videos.',
-    steps: [],
+    credits: [['Melissa Witmer, "Agility For Handlers" (Skyd Magazine, 2016)', 'https://skydmagazine.com/2016/10/agility-for-handlers/']],
+    srcnote: 'The written cues come from the club page and Melissa Witmer\'s Skyd article; no distances are given, so watch the videos for the movement.',
+    setup: 'Open space to move sideways. Two cones a few strides apart help.',
+    steps: [{ text: 'Shuffle or cross over sideways for a few steps, then stop hard: plant the outside foot wide, well outside your centre of mass, with the knee bent and your weight kept over the inside leg.' },
+      { text: 'Push straight back the other way off that outside leg. Start with only a little momentum, then build speed. At low speed the outside leg can make a short bounce to absorb the force and send you back.' }],
     tips: ['To push your body in any direction, your feet must be outside your centre of mass. Sharp lateral changes put you in the "hockey stop" position.',
       'The outside leg goes far outside your centre of mass so you can get low while you decelerate and accelerate the other way.',
-      'Your centre of mass stays closer to the inside leg. The outside leg absorbs a lot of lateral force and should be bent at 10–20°.',
+      'Your centre of mass stays closer to the inside leg. The outside leg absorbs a lot of lateral force, so keep it bent rather than straight.',
       'Drill 1, Crossover Hockey Stop: get comfortable in the position with a bit of lateral momentum.'],
   },
   'short-slalom': {
-    videos: [{ yt: 'Uc76LkiIDNY' }], setup: 'See the video.', steps: [],
+    summary: 'Side-to-side through a short slalom, deliberately lower and wider than is comfortable.',
+    credits: [['Melissa Witmer, "Agility For Handlers" (Skyd Magazine, 2016)', 'https://skydmagazine.com/2016/10/agility-for-handlers/']],
+    videos: [{ yt: 'Uc76LkiIDNY' }], setup: 'A short slalom of cones (no spacing given; see the video).',
+    steps: [{ text: 'Move side to side through the slalom, staying low and planting each foot well outside your centre of mass as you change direction.' }],
     tips: ['Get lower than is comfortable and get your feet far outside your centre of mass.', 'You\'re doing it right if you occasionally feel off balance, or even hit the dirt: push the edge of your comfort zone.'],
   },
   'five-ten': {
-    videos: [{ yt: 'LG3SkWKKLHk' }], setup: 'See the video.', steps: [],
-    tips: ['Builds awareness of your hips.', 'On defence keep your hips open towards the person you\'re covering; on offence, open hips on short cuts help you fake and cut faster.'],
+    title: '5-10-5 Drill', summary: 'The football combine shuttle: 5 yards one way, 10 back, 5 to finish, working on hip awareness in tight turns.',
+    credits: [['Melissa Witmer, "Agility For Handlers" (Skyd Magazine, 2016)', 'https://skydmagazine.com/2016/10/agility-for-handlers/']],
+    srcnote: 'The club page calls this the "5–10 Drill"; Witmer\'s article names it the 5-10-5. The cone layout is the standard combine one; the article doesn\'t give distances.',
+    videos: [{ yt: 'LG3SkWKKLHk' }], setup: 'Three cones in a line, 5 yards (about 4.5 m) apart. Start straddling the middle cone.',
+    steps: [{ text: 'Sprint 5 yards to one end cone and touch the line, turn and sprint 10 yards to the far end cone and touch, then turn and sprint 5 yards back through the middle.',
+      dia: { view: [4, 14, 32, 34], cones: [[8.5, 29.5], [18, 29.5], [27.5, 29.5]], o: [['P', 18, 27.3]], run: [[16.7, 27.3, 8.5, 27.3, 0], [8.5, 27.3, 27.5, 27.3, -12], [27.5, 27.3, 19.6, 27.3, 0]], note: [['1', 12.8, 26], ['2', 18, 20.3], ['3', 23.4, 26], ['5 yd', 13, 32.8], ['5 yd', 23, 32.8]] } }],
+    tips: ['Builds awareness of your hips: staying open, committing to the turn, and opening early into a faster turn.', 'This is the advanced one: do it after the other footwork drills. Film a rep now, practise for a few weeks, and film again to compare.', 'On defence keep your hips open towards the person you\'re covering; on offence, open hips on short cuts help you fake and cut faster.'],
   },
   'quarter-turn': {
-    videos: [{ yt: 'Yrvtw73t1bw' }], setup: 'See the video.', steps: [],
+    summary: 'Two steps, then plant and turn 90° to a stop, feeling how the foot placement opens the hips.',
+    credits: [['Melissa Witmer, "Agility For Handlers" (Skyd Magazine, 2016)', 'https://skydmagazine.com/2016/10/agility-for-handlers/']],
+    videos: [{ yt: 'Yrvtw73t1bw' }], setup: 'A line or cone to turn at.',
+    steps: [{ text: 'Take two steps forward, then plant and make a quarter turn (90°) and stop. In the step before the plant, turn that foot\'s toe towards the new direction. Practise turning both ways.' }],
     tips: ['Efficient changes of direction need open hips: feel the foot placement and hip opening into the turn.', 'In the step before the plant, the toe turns towards the new direction. Where the toes go, the hips follow.'],
   },
   'shuffle-cone-touch': {
-    videos: [{ yt: '5di130Hlpos' }], setup: 'Cones a short shuffle apart; see the video.', steps: [],
+    title: 'Short Shuttle with Cone Touch', summary: 'A short shuttle between two cones, touching each with the inside hand and letting your feet go beyond the cone.',
+    credits: [['Melissa Witmer, "Agility For Handlers" (Skyd Magazine, 2016)', 'https://skydmagazine.com/2016/10/agility-for-handlers/']],
+    videos: [{ yt: '5di130Hlpos' }], setup: 'Two cones a few metres apart (no distance given; see the video).',
+    steps: [{ text: 'Shuttle back and forth between the cones. At each one, touch it with your inside hand (the hand nearest the cone), hinge at the hips rather than bending at the waist, and keep your weight over the inside foot.' }],
     tips: ['Focus on form and speed.', 'Touch the cone with your inside hand and let your feet get outside your centre of mass (beyond the cones).'],
   },
 };

@@ -36,7 +36,7 @@ const SOURCED_DRILLS = [
     id: 'hex-progression', title: 'Hex: 2v2 to 7v7 Progression', players: '4+', cat: 'Team play',
     tags: ['Hex', 'Spacing', 'Flow offence', 'Small-sided'], credits: [FELIX],
     summary: 'Build Hex offence one principle at a time: open pass at 2v2, connected at 3v3, triangles at 4v4, then don\'t surround the disc from 5v5 up.',
-    setup: 'A box sized for the numbers. Play small-sided games, adding players and one focus per stage. Felix suggests it for cold days or for a team happy to try things before they are explained.',
+    setup: 'A box sized for the numbers. Play small-sided games, adding players and one focus per stage. Felix Shardlow, who devised Hex, suggests it for cold days or for a team happy to try things before they are explained.',
     rules: [
       'The Hex shape is 2-3-2: two backs nearest your own endzone, two wings (not within about 3 m of the sideline), one "hat" in the centre and two forwards nearest the attacking endzone.',
       '"Connected" means roughly 10 m apart: close enough to hear each other and throw accurately, able to cut any direction and receive.',
@@ -53,7 +53,7 @@ const SOURCED_DRILLS = [
         dia: { view: SV, o: [['A', ...HEX.b1], ['B', ...HEX.b2], ['C', ...HEX.w1], ['D', ...HEX.hat], ['E', ...HEX.w2], ['F', ...HEX.f1], ['G', ...HEX.f2]], disc: 'A',
           throw: [[13, 40, 18.5, 31, -1]], note: [['3 connected to A', 1, 46]] } },
     ],
-    tips: ['Take the open pass: Felix calls this the number one principle, whatever the yardage, field position or stall count.',
+    tips: ['Take the open pass: Felix Shardlow calls this the number one principle, whatever the yardage, field position or stall count.',
       'If you are unsure where to go, make a triangle: get connected to two teammates without crowding them.',
       'After passing to the sideline from a back spot, don\'t clear downfield unless connected players want to replace you.'],
   },
@@ -73,7 +73,7 @@ const SOURCED_DRILLS = [
     ],
     progressions: ['Change the play and rest times.', 'Add an extra defender every 10–20 seconds.',
       'Put 3 or 4 coloured endzones round the box. After a while the whistle-blower calls a colour; scoring in that endzone is worth 2 points.'],
-    tips: ['Not surrounding the disc is the big one: Felix says it causes most of the turnovers in this game.',
+    tips: ['Not surrounding the disc is the big one: Felix Shardlow says it causes most of the turnovers in this game.',
       'Stay connected without crowding, and take the open pass.',
       'It is tiring, so move efficiently.'],
   },
@@ -294,12 +294,12 @@ const SOURCED_DRILLS = [
         dia: { view: SV, o: [['H', 18, 40], ['P1', 15, 30], ['P2', 21, 30]], d: [['', 18, 38], ['', 14, 37], ['', 22, 37]], disc: 'H',
           run: [[15, 30, 14, 39, 1]], drun: [[14, 37, 12, 39, 0]], throw: [[18, 40, 21, 31, 1]] } },
       { text: 'Flood deep and hammer: three or four players go deep, each pulling a defender, which leaves one attacker open for a hammer or blade.',
-        dia: { view: SV, o: [['H', 18, 40], ['P1', 26, 29], ['W1', 8, 26], ['W2', 30, 24], ['D1', 18, 18]], d: [['', 18, 38], ['', 14, 37], ['', 22, 37]], disc: 'H',
+        dia: { view: SV, o: [['H', 18, 40], ['P1', 26, 29], ['W1', 8, 26], ['W2', 30, 24], ['C', 18, 18]], d: [['', 18, 38], ['', 14, 37], ['', 22, 37]], disc: 'H',
           run: [[8, 26, 8, 8, 0], [30, 24, 30, 6, 0], [18, 18, 18, 4, 0]], throw: [[18, 40, 26, 29, 4]] } },
     ],
     tips: ['Keep the disc moving, keep the stall count low and keep it away from the sidelines (Glasgow).',
       'Explode once the wall is beaten: move the disc upfield fast, or back to the centre if a wing catches. Deep and wing receivers keep helping and don\'t turn or cut away (Glasgow).',
-      'Owen\'s warning about dump-and-swing until a wing is open: seven sideways passes at 90% each is more likely to turn over than not, and the disc never goes forward.'],
+      'A warning from Owen (Thinkulti) about dump-and-swing until a wing is open: seven sideways passes at 90% each is more likely to turn over than not, and the disc never goes forward.'],
   },
 
   // ======================================================== ZONE / JUNK DEFENCE
@@ -376,7 +376,7 @@ const SOURCED_DRILLS = [
       { text: '3v2 or 4v3: add attackers and defenders, widen the flags or restrict the space round them.',
         dia: { view: SV, cones: [[18, 14], [18, 36]], o: [['A', 10, 22], ['B', 26, 28], ['C', 12, 34]], d: [['D', 12, 24], ['E', 24, 26]], disc: 'A', note: [['wind ↓', 19.5, 11]] } },
     ],
-    tips: ['Trains spotting space and throwing in the wind; Felix says it exposes weaknesses and challenges strengths.'],
+    tips: ['Trains spotting space and throwing in the wind; Felix Shardlow says it exposes weaknesses and challenges strengths.'],
   },
   {
     id: 'wind-throwing-pairs', title: 'Upwind and Downwind Throwing', players: '2', cat: 'Throwing',
@@ -475,6 +475,6 @@ const PLAYSPEDIA_DRILLS = [
           throw: [[6, 20, 30, 20, -2]], run: [[14, 40, 18, 31, 1]] } },
     ],
     progressions: ['USA Ultimate version: a box about 8 × 8 ft of four low cones, with two clearing markers about 30 yards away in opposite directions and no out of bounds. Both feet must be in the box to score; after a turnover, clear across either line first. Vary it with a stall count, moving the clearing markers, using one clearing line, or changing the box size.',
-      'Glasgow Ultimate version (warm-up): a 2–3 m² box inside a 10–12 m² box; after a turnover, clear outside the big box. The scoring team keeps the disc and must clear it again before scoring; three scores in a row and possession changes. Encourage give-and-gos, quick disc movement and aggressive pivots and fakes.'],
+      'Glasgow Ultimate version (warm-up): a small box about 2–3 m across inside a larger one about 10–12 m across (the source writes "m²", but these read as side lengths); after a turnover, clear outside the big box. The scoring team keeps the disc and must clear it again before scoring; three scores in a row and possession changes. Encourage give-and-gos, quick disc movement and aggressive pivots and fakes.'],
   },
 ];

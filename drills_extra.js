@@ -14,8 +14,8 @@ const EXTRA_DRILLS = [
   {
     id: 'fb-w-drill', title: 'W Drill', players: '1+', cat: 'Agility', tags: ['Defensive footwork', 'Agility', 'Backpedal'], credits: [KDB],
     summary: 'Backpedal, buzz your feet, sprint forward, buzz, backpedal again: a zig-zag of cones 5 yards apart.',
-    setup: 'Cones 5 yards apart in a W (zig-zag). The source\'s diagram isn\'t reproduced; ours shows the stated 5-yard spacing.',
-    steps: [{ text: 'Backpedal to the first cone with shoulders square, seeing it in your peripheral vision. Buzz your feet and sprint straight to the third cone; buzz and backpedal to the fourth; repeat once more, then finish by sprinting laterally (catching a disc if you have a partner).',
+    setup: 'Five cones 5 yards (about 4.5 m) apart in a W (zig-zag). Start at the first cone.',
+    steps: [{ text: 'Backpedal from the first cone to the second with shoulders square, seeing it in your peripheral vision. Buzz your feet and sprint forward to the third; buzz and backpedal to the fourth; buzz and sprint to the fifth. Finish by sprinting laterally (catching a disc if you have a partner).',
       dia: { view: FV, cones: [[8, 20], [12.6, 28], [17.2, 20], [21.8, 28], [26.4, 20]], o: [['P', 8, 20]], run: [[8, 20, 12.6, 27.5, 0], [12.6, 28, 17.2, 20.5, 0], [17.2, 20, 21.8, 27.5, 0], [21.8, 28, 26.2, 20.5, 0]] } }],
     rotation: '4 reps: 2 in each direction.',
     tips: ['Shoulders square; track the cones in your peripheral vision.', 'For ultimate: the backpedal-to-sprint transition is the move for closing on a cutter who stops and comes back.'],
