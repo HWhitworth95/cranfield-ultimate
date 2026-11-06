@@ -35,5 +35,3 @@ It's a plain static site (HTML, CSS and JavaScript, no build step), so it runs o
 - To change text, edit the relevant `.js` file; the content is HTML inside the strings.
 - To add a drill, copy an entry in `drills_flik.js` (diagram format is documented at the top of that file) or `drills_club.js`.
 - Pages are addressed by `#slug`, e.g. `…/#vert-stack`, `…/#drill-mini`.
-
-YouTube videos play inside the page here (they show as links on the Claude-hosted preview).
