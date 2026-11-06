@@ -23,7 +23,7 @@
     <div class="grp" data-g="${gi}">
       <button type="button"><span>${g.title}</span><span class="chev">▾</span></button>
       <ul>${g.items.filter(i => BY_SLUG[i.slug]).map(i =>
-        `<li><a href="#${i.slug}" class="${i.sub ? 'sub' : ''}" data-slug="${i.slug}">${i.slug === 'home' ? 'Home' : (i.label || BY_SLUG[i.slug].title)}${i.isNew ? '<span class="new">NEW</span>' : ''}</a></li>`).join('')}
+        `<li><a href="#${i.slug}" class="${i.sub ? 'sub' : ''}" data-slug="${i.slug}">${i.slug === 'home' ? 'Home' : (i.label || BY_SLUG[i.slug].title)}</a></li>`).join('')}${g.items.some(i => i.slug === 'drills') ? '<li><a href="#session" class="sub" data-slug="session">Session Planner</a></li><li><a href="#this-week" class="sub" data-slug="this-week">This Week\'s Session</a></li>' : ''}
       </ul>
     </div>`).join('');
 
@@ -55,6 +55,25 @@
       location.replace('#drills');
       return;
     }
+    if (slug.startsWith('session=')) { DrillLib.loadShared(location.hash.slice(9)); location.replace('#session'); return; }
+    if (slug === 'session') return renderSession();
+    if (slug === 'this-week') {
+      document.title = "This week's session · Cranfield Ultimate";
+      $title.textContent = "This Week's Session"; $crumb.textContent = 'Training';
+      $hero.style.backgroundImage = `url("${asset(BY_SLUG['drills'].hero || HERO_DEFAULT)}")`;
+      Coach.weeklyPage($content).then(() => wireZoom($content));
+      if (lastSlug !== slug) window.scrollTo(0, 0); lastSlug = slug; return;
+    }
+    if (slug.startsWith('collection-')) {
+      const c = DrillLib.collection(slug.slice(11));
+      if (c) {
+        document.title = c.title + ' · Cranfield Ultimate';
+        $title.textContent = c.title; $crumb.textContent = 'Drill Library · Start here';
+        $hero.style.backgroundImage = `url("${asset(BY_SLUG['drills'].hero || HERO_DEFAULT)}")`;
+        $content.innerHTML = c.html; DrillLib.wireCollection($content);
+        if (lastSlug !== slug) window.scrollTo(0, 0); lastSlug = slug; return;
+      }
+    }
     const drillId = slug.startsWith('drill-') ? slug.slice(6) : null;
     if (drillId && DrillLib.BY_ID[drillId]) return renderDrill(drillId);
 
@@ -68,8 +87,10 @@
     const heroImg = page.hero || (group && group.hero) || HERO_DEFAULT;
     $hero.style.backgroundImage = heroImg ? `url("${asset(heroImg)}")` : '';
 
-    $content.innerHTML = (slug === 'drills' ? DrillLib.list() : page.html) + pager(slug);
+    $content.innerHTML = (slug === 'drills' ? DrillLib.list() : page.html + DrillLib.forPage(slug)) + pager(slug);
+    $content.querySelectorAll('[data-drilltag]').forEach(a => a.addEventListener('click', () => DrillLib.setTag(a.dataset.drilltag)));
     if (slug === 'drills') DrillLib.wireList($content, render);
+    if (slug === 'home' && window.Coach) Coach.mountHome($content);
     wireVideos($content);
     wireTicks($content);
     wireZoom($content);
@@ -87,6 +108,18 @@
   }
   let lastSlug = null;
 
+  function renderSession() {
+    document.title = 'Session Plan · Cranfield Ultimate';
+    $title.textContent = 'Session Plan';
+    $crumb.textContent = 'Drill Library';
+    $hero.style.backgroundImage = `url("${asset(BY_SLUG['drills'].hero || HERO_DEFAULT)}")`;
+    $content.innerHTML = DrillLib.session();
+    DrillLib.wireSession($content, renderSession);
+    wireZoom($content);
+    if (lastSlug !== 'session') window.scrollTo(0, 0);
+    lastSlug = 'session';
+  }
+
   function renderDrill(id) {
     const d = DrillLib.BY_ID[id];
     document.title = `${d.title} · Cranfield Ultimate`;
@@ -94,6 +127,7 @@
     $crumb.textContent = 'Drill Library';
     $hero.style.backgroundImage = `url("${asset((GROUP_OF['drills'] && BY_SLUG['drills'].hero) || HERO_DEFAULT)}")`;
     $content.innerHTML = DrillLib.detail(id);
+    DrillLib.wirePicks($content);
     wireVideos($content);
     wireZoom($content);
     menu.querySelectorAll('a.on').forEach(a => a.classList.remove('on'));

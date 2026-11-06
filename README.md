@@ -25,6 +25,8 @@ It's a plain static site (HTML, CSS and JavaScript, no build step), so it runs o
 | `drills_club.js` | The club's own drills |
 | `drills_flik.js` | Free Flik drills, reworded and redrawn, with credits |
 | `drills_ultiplays.js`, `drills_ultiplays2.js` | Free Ultiplays playbook drills, reworded and redrawn, with links |
+| `drills_social.js` | Drills written up from Disc In videos, with links |
+| `drills_extra.js` | Extra club drills and American football footwork drills adapted for ultimate |
 | `img/` | Diagrams and photos |
 | `kit/` | Kit design files (.ai) and their previews |
 
