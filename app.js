@@ -96,6 +96,8 @@
       const p = typeof PAGE_DIAS !== 'undefined' && PAGE_DIAS[el.dataset.key]; if (!p) return;
       el.innerHTML = `<figure class="pdfig">${DrillLib.pageDiagram(p.dia)}<figcaption>${p.cap}</figcaption></figure>`;
     });
+    addToc(slug);
+    addPrintLink(slug);
     wireVideos($content);
     wireTicks($content);
     wireZoom($content);
@@ -201,6 +203,36 @@
     });
   }
 
+  // ---------- Automatic "On this page" menu ----------
+  // Written pages with four or more sections get a row of section links at the top
+  // (unless the page already has one from the original club content).
+  const NO_TOC = new Set(['home', 'drills', 'glossary']);
+  function addToc(slug) {
+    if (NO_TOC.has(slug) || $content.querySelector('.toc')) return;
+    const heads = [...$content.querySelectorAll(':scope > h2')];
+    if (heads.length < 4) return;
+    const nav = document.createElement('nav');
+    nav.className = 'toc';
+    nav.innerHTML = '<b>On this page</b>' + heads.map(h => {
+      const t = h.textContent.replace(/\s+/g, ' ').trim().replace(/"/g, '&quot;');
+      return `<button type="button" data-goto="${t}">${t}</button>`;
+    }).join('');
+    const lede = $content.querySelector(':scope > .lede');
+    if (lede) lede.after(nav); else $content.prepend(nav);
+  }
+
+  // A "Print / save as PDF" link at the foot of written pages.
+  function addPrintLink(slug) {
+    if (NO_TOC.has(slug) && slug !== 'glossary') return;
+    if ($content.querySelectorAll(':scope > h2').length < 2) return;
+    const b = document.createElement('p');
+    b.className = 'printlink noprint';
+    b.innerHTML = '<button type="button">🖨 Print or save this page as a PDF</button>';
+    b.querySelector('button').addEventListener('click', () => window.print());
+    const pg = $content.querySelector(':scope > .pager');
+    if (pg) pg.before(b); else $content.append(b);
+  }
+
   // ---------- "On this page" jump buttons ----------
   // Hash routing is used for pages, so in-page jumps scroll by heading text.
   function wireJumps(root) {
@@ -211,6 +243,16 @@
       });
     });
   }
+
+  // ---------- Mobile search button and back-to-top ----------
+  const msearch = document.getElementById('msearch');
+  if (msearch) msearch.addEventListener('click', () => {
+    document.body.classList.add('nav-open');
+    setTimeout(() => document.getElementById('q').focus(), 50);
+  });
+  const backTop = document.getElementById('backtop');
+  backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', () => backTop.classList.toggle('show', window.scrollY > 1200), { passive: true });
 
   // ---------- Lightbox ----------
   const lb = document.getElementById('lb');

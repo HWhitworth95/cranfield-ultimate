@@ -553,16 +553,26 @@ ${pager(pages)}
 </div>`;
   }
 
+  // On phones the filter rows fold away behind a "Filters" button; remember whether it's open.
+  let filtersOpen = false;
+  // How many filters (beyond search and players) are narrowing the list.
+  function activeFilters() {
+    return (state.level ? 1 : 0) + (state.cat ? 1 : 0) + (state.timed ? 1 : 0)
+      + (state.have && state.have.length < KIT.length ? 1 : 0) + state.tags.length;
+  }
+
   function list() {
     const shown = DRILLS.filter(matches);
     const playerOpts = [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 14]
       .map(n => `<option value="${n}"${state.players === n ? ' selected' : ''}>${n ? n + ' players' : 'Any number'}</option>`).join('');
     return `
 <p class="lede">${DRILLS.length} drills for throwing, cutting, team play, defence and footwork. Filter by how many people you've got and what you want to work on.</p>
-<div class="dfilter">
+<div class="dfilter${filtersOpen ? ' open' : ''}">
   <input type="search" id="df-q" placeholder="Search drills…" value="${esc(state.q)}">
   <label>Players <select id="df-p">${playerOpts}</select></label>
   <button type="button" class="reset" id="df-reset">Reset</button>
+  <button type="button" class="dmore-btn" id="df-more" aria-expanded="${filtersOpen}">Filters${activeFilters() ? ` <em>${activeFilters()} on</em>` : ''} <span>${filtersOpen ? '▴' : '▾'}</span></button>
+  <div class="dmore">
   <div class="row"><span class="lbl">Level</span>${['', ...LEVELS, 'Not graded'].filter(l => !l || DRILLS.some(d => (d.level || 'Not graded') === l)).map(l =>
     `<button type="button" class="fchip${state.level === l ? ' on' : ''}" data-level="${esc(l)}">${l || 'Any'} <small>${l ? DRILLS.filter(d => (d.level || 'Not graded') === l).length : ''}</small></button>`).join('')}<span class="lvlnote">* suggested level, not from the drill's source</span></div>
   <div class="row"><span class="lbl">Category</span>${['', ...CATS].map(c =>
@@ -572,6 +582,7 @@ ${pager(pages)}
   <div class="row"><span class="lbl">Time</span><button type="button" class="fchip${state.timed ? ' on' : ''}" id="df-timed">Only drills with a set time <small>${DRILLS.filter(d => d.time).length}</small></button></div>
   <details class="row skills"${state.tags.length ? ' open' : ''}><summary><span class="lbl">Skills</span>${state.tags.length ? ` <em>${state.tags.length} selected</em>` : ''}</summary>
     ${TAGS.map(t => `<button type="button" class="fchip${state.tags.includes(t) ? ' on' : ''}" data-tag="${esc(t)}">${esc(t)}</button>`).join('')}</details>
+  </div>
 </div>
 <div class="starthere"><h2>Start here</h2><div class="colgrid">${COLLECTIONS.map(c =>
   `<a class="colcard" href="#collection-${c.id}"><strong>${esc(c.title)}</strong><span>${c.ids.filter(id => BY_ID[id]).length} drills</span></a>`).join('')}
@@ -583,6 +594,13 @@ ${results(shown)}`;
   function wireList(root, rerender) {
     // Any filter change goes back to page 1.
     const upd = () => { page = 1; save(); rerender(); };
+    const more = root.querySelector('#df-more');
+    if (more) more.addEventListener('click', () => {
+      filtersOpen = !filtersOpen;
+      root.querySelector('.dfilter').classList.toggle('open', filtersOpen);
+      more.setAttribute('aria-expanded', filtersOpen);
+      more.querySelector('span').textContent = filtersOpen ? '▴' : '▾';
+    });
 
     // Pager buttons: change page, redraw just the results, scroll to their top.
     const wirePager = () => root.querySelectorAll('.dpager [data-page]').forEach(b => b.addEventListener('click', () => {
