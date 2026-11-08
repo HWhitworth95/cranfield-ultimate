@@ -40,6 +40,11 @@ const PAGE_DIAS = {
       drun: [[14.2, 10.8, 14, 15.3, 0]], opt: [[14, 15.8, 9.8, 16.8, 0], [9.8, 16.8, 14.2, 10.8, 0]],
       note: [['home', 18.2, 14.2], ['around', 8, 19.4], ['inside', 11, 9.2]] } },
 
+  // Receiving the pull: three handlers back; the side handler the pull goes to catches it and the centre handler gets the first pass.
+  'pull-receive': { cap: 'Three handlers back: the pull goes to the left, so the left handler (H1) catches it and the centre handler (H2) steps up for the first pass while the cutters set the stack.',
+    dia: { view: [0, 18, 37, 50], o: [['H1', 9, 46], ['H2', 18, 43], ['H3', 27, 46], ['C1', 6, 30], ['C2', 13, 30], ['C3', 24, 30], ['C4', 31, 30]], disc: 'H1',
+      run: [[18, 43, 18, 39.5, 0]], throw: [[9, 46, 17.6, 40, 1]], note: [['first pass', 23, 39.5], ['pull caught', 9, 49]] } },
+
   'pd-buffer': { cap: 'Keep a buffer: stand a couple of steps off, between your player and the danger zone, hips facing the space you\'re protecting. Accelerate as they accelerate and you win the race to the danger zone.',
     dia: { view: [4, 4, 34, 46], o: [['T', 14, 40], ['C', 22, 22]], d: [['M', 12, 38.5], ['D', 20, 25.5]], disc: 'T', run: [[22, 22, 19, 33, 0]], drun: [[20, 25.5, 18, 32, 0]], note: [['buffer', 25, 25]] } },
 
