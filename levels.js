@@ -5,7 +5,7 @@
 // I = needs reliable throws and stack basics, some reading of defence;
 // A = team systems, set plays, zone/hybrid schemes or fine timing under pressure.
 const SUGGESTED_LEVELS = {
-  B: ['catching-box', 'all-in-one-receiving', 'reading-the-disc', 'shadow-continuation', 'stall-four-restart', 'throwing-in-pairs', 'box-drill', 'lead-passes', 'wipers', 'pull-practice', 'curve-into-goal',
+  B: ['triangle-force-drill', 'catching-box', 'all-in-one-receiving', 'reading-the-disc', 'shadow-continuation', 'stall-four-restart', 'throwing-in-pairs', 'box-drill', 'lead-passes', 'wipers', 'pull-practice', 'curve-into-goal',
     'wind-throwing-pairs', 'under-cuts', 'three-player-weave', 'attack-the-under', 'away-to-open-under', 'triangle-cutting',
     'swill-reading', 'sideline-dump', 'give-and-go', 'defensive-positioning', 'open-side-unders', 'mirror-defending',
     'triangle-marking', 'buffering', 'block-everything', 'aerial-battles', 'hockey-stop', 'short-slalom',

@@ -21,6 +21,25 @@ const PAGE_DIAS = {
   // ---- Person defence
   'pd-zones': { cap: 'The three races, in priority order: (1) the open-side under space right in front of the thrower, the danger zone; (2) deep, where teammates can help; (3) the break side, which the mark protects.',
     dia: { view: [0, 2, 37, 46], o: [['T', 14, 40], ['C', 21, 24]], d: [['M', 12, 38.5], ['D', 20.5, 27]], disc: 'T', note: [['1 · danger zone', 22, 33], ['2 · deep', 21, 10], ['3 · break side', 6, 26], ['open side →', 28, 40]] } },
+  // Marking triangle sequence: force forehand on a right-hander facing up, so the mark is on the -x (backhand/break) side.
+  // Corners: home (14, 15.8), around (9.8, 16.8), inside (13.9, 10.8) - the inside corner sits on the inside-break lane.
+  'tri-1': { cap: '1 · Home. An honest mark on the break-side shoulder, a disc-length off. The two breaks to stop are the around (wide of you) and the inside (through your front).',
+    dia: { fixed: true, view: [1, 0, 26, 21], o: [['T', 16, 17.5]], d: [['M', 14, 15.8]], disc: 'T',
+      opt: [[16, 17.5, 3, 6, 3], [16, 17.5, 10, 1, -1]],
+      note: [['around', 4.4, 10.4], ['inside', 8.4, 3.2], ['home', 18.2, 14.2], ['open side →', 20.6, 20]] } },
+  'tri-2': { cap: '2 · Around. The thrower steps out wide to show the around break. Shuffle sideways and slightly back to take it away, staying balanced.',
+    dia: { fixed: true, view: [1, 0, 26, 21], o: [['T', 15, 18.4]], d: [['M', 14, 15.8]], disc: 'T',
+      drun: [[14, 15.8, 9.8, 16.8, 0]], opt: [[15, 18.4, 3, 8, 3]],
+      note: [['✗', 6.4, 12.4], ['steps out', 20.8, 20.3], ['around', 8, 19.4]] } },
+  'tri-3': { cap: '3 · Inside. They pivot forward across your front. Shuffling straight back along the line (grey) is too late; drop-step back and in (red) to sit in the lane the inside break must go through.',
+    dia: { fixed: true, view: [1, 0, 26, 21], o: [['T', 16.6, 15.6]], d: [['M', 9.8, 16.8]], disc: 'T',
+      drun: [[9.8, 16.8, 14.2, 10.8, 0]], opt: [[16.6, 15.6, 10, 1, -1], [11.2, 16.6, 14.6, 16.1, 0]],
+      note: [['pivots', 20.2, 13.2], ['drop-step', 9.4, 12.6], ['too late', 12.4, 19.2], ['✗', 12.4, 6]] } },
+  'tri-4': { cap: '4 · Close in. From the inside corner you\'re too far off and they have angles again, so get back to home before they reset. One lap: home → around → inside → home.',
+    dia: { fixed: true, view: [1, 0, 26, 21], o: [['T', 16, 17.5]], d: [['M', 14.2, 10.8]], disc: 'T',
+      drun: [[14.2, 10.8, 14, 15.3, 0]], opt: [[14, 15.8, 9.8, 16.8, 0], [9.8, 16.8, 14.2, 10.8, 0]],
+      note: [['home', 18.2, 14.2], ['around', 8, 19.4], ['inside', 11, 9.2]] } },
+
   'pd-buffer': { cap: 'Keep a buffer: stand a couple of steps off, between your player and the danger zone, hips facing the space you\'re protecting. Accelerate as they accelerate and you win the race to the danger zone.',
     dia: { view: [4, 4, 34, 46], o: [['T', 14, 40], ['C', 22, 22]], d: [['M', 12, 38.5], ['D', 20, 25.5]], disc: 'T', run: [[22, 22, 19, 33, 0]], drun: [[20, 25.5, 18, 32, 0]], note: [['buffer', 25, 25]] } },
 

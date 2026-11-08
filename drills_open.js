@@ -290,6 +290,22 @@ const OPEN_DRILLS = [
     tips: ['Protect an area, don\'t chase the person: keep a buffer and accelerate when they accelerate.', 'Never let a cutter get behind your back and out of sight.', 'Use your body as an obstacle (legally) and get between them and the disc in the danger zone.'],
   },
   {
+    id: 'triangle-force-drill', title: 'Triangle Force Drill', players: '4–6', cat: 'Defence',
+    tags: ['Marking', 'Footwork', 'Approach'], time: 10,
+    summary: 'Three throwers pass round a triangle while a marker sprints to each new thrower and re-sets the force, training the approach and getting to an honest mark fast.',
+    setup: 'Three throwers on cones in a triangle about 8–10 m apart, all facing the same way upfield. One marker. The coach calls the force (e.g. "force forehand"). Extra players queue to swap in as marker.',
+    steps: [
+      { text: 'T1 passes to T2 as soon as the marker is set. The marker sprints to T2, approaching on a path that shuts off the break side first, then settles into home: a disc-length off, low and wide, counting.',
+        dia: { view: [0, 8, 34, 36], o: [['T1', 8, 30], ['T2', 26, 30], ['T3', 17, 16]], d: [['M', 6.5, 28.8]], disc: 'T1',
+          throw: [[8, 30, 25.5, 29.5, -1]], drun: [[6.5, 28.8, 24.5, 28.6, 2.5]], note: [['force forehand', 17, 34]] } },
+      { text: 'T2 holds until stall 2–3 (faking at the break side to test the mark), then passes to T3. The marker re-sets on T3, curving round so they arrive on the break side rather than running through the thrower.',
+        dia: { view: [0, 8, 34, 36], o: [['T1', 8, 30], ['T2', 26, 30], ['T3', 17, 16]], d: [['M', 24.5, 28.8]], disc: 'T2',
+          throw: [[26, 30, 17.5, 16.5, 1]], drun: [[24.5, 28.8, 15.5, 14.8, -2]] } },
+    ],
+    progressions: ['Coach changes the force call mid-rep, so the marker has to read it and arrive on the other side.', 'Throwers fake the around and the inside before passing: the marker uses the triangle, then returns home.', 'Two discs and two markers for more reps.'],
+    tips: ['Get between the thrower and the break first, then close in. Don\'t overrun them.', 'Start the count only once you\'re within 3 m.', 'Arrive balanced: hips low, weight on the balls of your feet, hands low and wide.'],
+  },
+  {
     id: 'marking-as-a-pair', title: 'Marking as a Pair', players: '8', cat: 'Defence',
     tags: ['Team defence', 'Switching', 'Communication'], time: 20,
     summary: 'Two defenders "sandwich" two cutters standing close together, one under and one deep, and pick up whichever cut comes their way.',

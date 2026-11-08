@@ -488,7 +488,8 @@ ${list.length ? '' : '<p class="muted">No drills in this plan yet. Go to the <a 
   // Diagram for a written page: same defender spacing and auto-framing as drills.
   function pageDiagram(dia) {
     const copy = JSON.parse(JSON.stringify(dia));
-    fitViews({ steps: [{ dia: copy }] });
+    // fixed: keep the given view so a sequence of diagrams shares one scale.
+    if (copy.fixed) separateDefenders(copy); else fitViews({ steps: [{ dia: copy }] });
     return diagram(copy);
   }
 
