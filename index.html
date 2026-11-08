@@ -46,6 +46,10 @@
   .results a { display: block; padding: .5rem .8rem; text-decoration: none; color: var(--ink); border-bottom: 1px solid var(--line); font-size: .9rem; }
   .results a small { display: block; color: var(--muted); }
   .results a:hover, .results a.sel { background: #fff6d6; }
+  .results a .sec { color: var(--muted); font-weight: 400; }
+  .results a .snip { display: block; font-size: .8rem; color: #4a5a70; margin-top: .15rem; line-height: 1.35; }
+  .results mark, mark.hit { background: #ffe27a; color: inherit; border-radius: 2px; padding: 0 1px; transition: background-color 1.2s; }
+  mark.hit.fade { background: transparent; }
   nav.menu { padding-bottom: 2rem; }
   .grp > button { all: unset; cursor: pointer; display: flex; justify-content: space-between; align-items: center; width: 100%;
     box-sizing: border-box; padding: .55rem 1.2rem; font: 600 .78rem Inter; letter-spacing: .09em; text-transform: uppercase; color: #9fb2cc; }
@@ -397,7 +401,7 @@
 <body>
 <aside class="side" id="side">
   <a class="brand" href="#home"><span class="disc">CU</span><span><b>Cranfield Ultimate</b><small>Cranfield University Frisbee</small></span></a>
-  <div class="search"><input id="q" type="search" placeholder="Search drills, plays, workouts…" autocomplete="off"><div class="results" id="results"></div></div>
+  <div class="search"><input id="q" type="search" placeholder="Search the site: drills, rules, tactics…" autocomplete="off"><div class="results" id="results"></div></div>
   <nav class="menu" id="menu"></nav>
 </aside>
 <main>
@@ -427,7 +431,7 @@
 <script src="collections.js?v=401d17d9"></script>
 <script src="config.js?v=d73b62c8"></script>
 <script src="coach.js?v=0383193a"></script>
-<script src="drills.js?v=85b51067"></script>
-<script src="app.js?v=34b458ad"></script>
+<script src="drills.js?v=7a88816b"></script>
+<script src="app.js?v=83737413"></script>
 </body>
 </html>

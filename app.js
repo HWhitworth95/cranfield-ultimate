@@ -223,28 +223,138 @@
   }
 
   // ---------- Search ----------
+  // Written pages are indexed section by section (split at <h2>/<h3>), so a hit can name
+  // the section and jump straight to it. Drills are indexed whole.
   const q = document.getElementById('q');
   const results = document.getElementById('results');
-  const INDEX = ALL.map(p => ({
-    slug: p.slug, title: p.title, group: (GROUP_OF[p.slug] || {}).title || '',
-    text: (p.title + ' ' + p.html.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').toLowerCase(),
-  })).concat(DrillLib.index);
+  const strip = html => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&')
+    .replace(/&#39;|&rsquo;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+  // Diagram captions live in PAGE_DIAS, not in the page HTML: swap the placeholders for their captions.
+  const withCaptions = html => html.replace(/<div class="pdia" data-key="([^"]+)"><\/div>/g,
+    (m, k) => (typeof PAGE_DIAS !== 'undefined' && PAGE_DIAS[k]) ? ' ' + PAGE_DIAS[k].cap + ' ' : ' ');
 
-  q.addEventListener('input', () => {
+  const INDEX = [];
+  ALL.forEach(p => {
+    const group = (GROUP_OF[p.slug] || {}).title || '';
+    // Split before every h2/h3; the first chunk (before any heading) is the page intro.
+    withCaptions(p.html).split(/(?=<h[23][^>]*>)/).forEach(chunk => {
+      const m = chunk.match(/^<h[23][^>]*>([\s\S]*?)<\/h[23]>/);
+      const heading = m ? strip(m[1]) : '';
+      const raw = strip(chunk);
+      if (!raw) return;
+      INDEX.push({ slug: p.slug, title: p.title, heading, group, raw, text: (p.title + ' ' + raw).toLowerCase() });
+    });
+  });
+  DrillLib.index.forEach(d => INDEX.push({ ...d, heading: '', raw: d.raw || d.text }));
+
+  const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  // A short snippet around the first match, with every search word highlighted.
+  function snippet(raw, words) {
+    const low = raw.toLowerCase();
+    let at = -1; for (const w of words) { const i = low.indexOf(w); if (i >= 0 && (at < 0 || i < at)) at = i; }
+    if (at < 0) return '';
+    const from = Math.max(0, at - 40), to = Math.min(raw.length, at + 90);
+    let txt = esc((from ? '…' : '') + raw.slice(from, to) + (to < raw.length ? '…' : ''));
+    words.forEach(w => { txt = txt.replace(new RegExp('(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>'); });
+    return txt;
+  }
+
+  let hits = [], sel = -1;
+  function search() {
     const term = q.value.trim().toLowerCase();
     if (term.length < 2) { results.style.display = 'none'; return; }
-    const hits = INDEX
-      .map(p => ({ p, score: (p.title.toLowerCase().includes(term) ? 10 : 0) + (p.text.split(term).length - 1) }))
-      .filter(h => h.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 12);
+    const words = term.split(/\s+/).filter(w => w.length > 1);
+    const scored = [];
+    INDEX.forEach(e => {
+      if (!words.every(w => e.text.includes(w))) return;           // every word must appear
+      const t = e.title.toLowerCase(), h = e.heading.toLowerCase();
+      const multi = words.length > 1;
+      // The exact phrase counts most; a word only earns a title/heading bonus when it starts a word there
+      // (so "back" in "last back" doesn't favour "Backhand").
+      let score = (e.text.split(term).length - 1) * (multi ? 4 : 1);
+      if (t.includes(term)) score += 12; if (h.includes(term)) score += 8;
+      words.forEach(w => {
+        const startsWord = new RegExp('(^|[^a-z])' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z]|$)');
+        score += (e.text.split(w).length - 1) * 0.3 + (startsWord.test(t) ? 4 : 0) + (startsWord.test(h) ? 3 : 0);
+      });
+      scored.push({ e, score });
+    });
+    scored.sort((a, b) => b.score - a.score);
+    // At most two sections from any one page, so one long page can't fill the list.
+    const perPage = {}; hits = [];
+    for (const s of scored) {
+      perPage[s.e.slug] = (perPage[s.e.slug] || 0) + 1;
+      if (perPage[s.e.slug] <= 2) hits.push(s.e);
+      if (hits.length >= 12) break;
+    }
+    sel = -1;
     results.innerHTML = hits.length
-      ? hits.map(h => `<a href="#${h.p.slug}">${h.p.title}<small>${h.p.group}</small></a>`).join('')
+      ? hits.map((e, i) => `<a href="#${e.slug}" data-i="${i}">${esc(e.title)}${e.heading ? ` <span class="sec">› ${esc(e.heading)}</span>` : ''}`
+          + `<small>${esc(e.group)}</small><span class="snip">${snippet(e.raw, words)}</span></a>`).join('')
       : '<a><small>No matches</small></a>';
     results.style.display = 'block';
+  }
+  q.addEventListener('input', search);
+  q.addEventListener('focus', () => { if (q.value.trim().length >= 2) search(); });
+
+  // Arrow keys move through the results; Enter opens the selected (or first) one.
+  q.addEventListener('keydown', e => {
+    const links = [...results.querySelectorAll('a[data-i]')];
+    if (!links.length) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+      links.forEach((a, i) => a.classList.toggle('sel', i === sel));
+      links[sel].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+      e.preventDefault(); open(hits[Math.max(sel, 0)]);
+    } else if (e.key === 'Escape') { results.style.display = 'none'; q.blur(); }
   });
-  results.addEventListener('click', () => { results.style.display = 'none'; q.value = ''; });
+  results.addEventListener('click', e => {
+    const a = e.target.closest('a[data-i]'); if (!a) return;
+    e.preventDefault(); open(hits[+a.dataset.i]);
+  });
   document.addEventListener('click', e => { if (!e.target.closest('.search')) results.style.display = 'none'; });
+
+  // Go to the result, then scroll to its section and briefly highlight the search words.
+  function open(hit) {
+    if (!hit) return;
+    const words = q.value.trim().toLowerCase().split(/\s+/).filter(w => w.length > 1);
+    results.style.display = 'none'; q.value = ''; q.blur();
+    if (location.hash !== '#' + hit.slug) location.hash = hit.slug; else render();
+    setTimeout(() => jumpTo(hit.heading, words), 60);
+  }
+  function jumpTo(heading, words) {
+    let section = $content;
+    if (heading) {
+      const h = [...$content.querySelectorAll('h2, h3')].find(x => x.textContent.replace(/\s+/g, ' ').trim() === heading);
+      if (h) { h.scrollIntoView({ behavior: 'smooth', block: 'start' }); section = h; }
+    }
+    // Highlight matches in the heading's section (up to the next heading) or in the whole page.
+    const nodes = [];
+    for (let el = heading ? section : $content.firstElementChild; el; el = el.nextElementSibling) {
+      if (heading && el !== section && /^H[23]$/.test(el.tagName)) break;
+      nodes.push(el);
+    }
+    const re = new RegExp('(' + words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'gi');
+    const marks = [];
+    nodes.forEach(n => {
+      const walker = document.createTreeWalker(n, NodeFilter.SHOW_TEXT, {
+        acceptNode: t => t.parentElement.closest('svg, script, style, mark') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+      const texts = []; while (walker.nextNode()) texts.push(walker.currentNode);
+      texts.forEach(t => {
+        if (!re.test(t.nodeValue)) return; re.lastIndex = 0;
+        const span = document.createElement('span');
+        span.innerHTML = esc(t.nodeValue).replace(re, '<mark class="hit">$1</mark>');
+        marks.push(...span.querySelectorAll('mark'));
+        t.replaceWith(...span.childNodes);
+      });
+    });
+    if (!heading && marks[0]) marks[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Fade the highlights out after a few seconds, leaving the text as it was.
+    setTimeout(() => marks.forEach(m => m.classList.add('fade')), 2500);
+    setTimeout(() => marks.forEach(m => m.replaceWith(document.createTextNode(m.textContent))), 4000);
+  }
 
   // ---------- Helpers ----------
   function loadJSON(key, fallback) {

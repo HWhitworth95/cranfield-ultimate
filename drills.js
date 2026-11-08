@@ -686,6 +686,9 @@ ${creditLine(d)}`;
     setCategory(cat) { state = { q: '', players: 0, cat, tags: [], level: '' }; page = 1; save(); },
     // For site search.
     index: DRILLS.map(d => ({ slug: 'drill-' + d.id, title: d.title, group: 'Drill · ' + d.cat,
-      text: (d.title + ' ' + d.summary + ' ' + d.tags.join(' ') + ' ' + (d.html || '') + ' ' + (d.setup || '')).replace(/<[^>]+>/g, ' ').toLowerCase() })),
+      raw: [d.summary, d.setup || '', (d.html || ''), ...(d.steps || []).map(st => st.text || ''), ...(d.rules || []), ...(d.tips || []), ...(d.progressions || [])]
+        .join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
+      text: [d.title, d.summary, d.tags.join(' '), d.setup || '', (d.html || ''), ...(d.steps || []).map(st => st.text || ''), ...(d.rules || []), ...(d.tips || []), ...(d.progressions || [])]
+        .join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').toLowerCase() })),
   };
 })();
