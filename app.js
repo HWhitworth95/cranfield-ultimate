@@ -91,6 +91,11 @@
     $content.querySelectorAll('[data-drilltag]').forEach(a => a.addEventListener('click', () => DrillLib.setTag(a.dataset.drilltag)));
     if (slug === 'drills') DrillLib.wireList($content, render);
     if (slug === 'home' && window.Coach) Coach.mountHome($content);
+    // Diagrams inside written pages: <div class="pdia" data-key="..."> → PAGE_DIAS entry.
+    $content.querySelectorAll('.pdia[data-key]').forEach(el => {
+      const p = typeof PAGE_DIAS !== 'undefined' && PAGE_DIAS[el.dataset.key]; if (!p) return;
+      el.innerHTML = `<figure class="pdfig">${DrillLib.pageDiagram(p.dia)}<figcaption>${p.cap}</figcaption></figure>`;
+    });
     wireVideos($content);
     wireTicks($content);
     wireZoom($content);

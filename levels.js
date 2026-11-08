@@ -5,7 +5,7 @@
 // I = needs reliable throws and stack basics, some reading of defence;
 // A = team systems, set plays, zone/hybrid schemes or fine timing under pressure.
 const SUGGESTED_LEVELS = {
-  B: ['throwing-in-pairs', 'box-drill', 'lead-passes', 'wipers', 'pull-practice', 'curve-into-goal',
+  B: ['catching-box', 'all-in-one-receiving', 'reading-the-disc', 'shadow-continuation', 'stall-four-restart', 'throwing-in-pairs', 'box-drill', 'lead-passes', 'wipers', 'pull-practice', 'curve-into-goal',
     'wind-throwing-pairs', 'under-cuts', 'three-player-weave', 'attack-the-under', 'away-to-open-under', 'triangle-cutting',
     'swill-reading', 'sideline-dump', 'give-and-go', 'defensive-positioning', 'open-side-unders', 'mirror-defending',
     'triangle-marking', 'buffering', 'block-everything', 'aerial-battles', 'hockey-stop', 'short-slalom',
@@ -14,7 +14,7 @@ const SUGGESTED_LEVELS = {
     'race-to-100', 'humans-v-zombies', 'frisbee-tag', 'hot-box', 'mushroom', 'clear-and-in',
     'positioning-triangle', 'wind-flags', 'two-disc-catch-release', 'shallow-deep-vs', 'mta', 'consistency-markers',
     'fast-release', 'throw-and-go', 'aggressive-catching', 'throwing-progression-4-lines', 'mirror-line'],
-  I: ['five-ten', 'layout-progression', 'break-throwing', 'swiss-drill', 'diagonal-lead-passes', 'x-drill', 'line-break-active-force',
+  I: ['five-ten', 'reset-and-continue', 'third-handler-drill', 'ho-initiation-calls', 'ho-walkthrough', 'side-stack-flow', 'vert-give-go-deep', 'vert-circuit', 'danger-zone-boxes', 'endzone-3v3-halfcourt', 'kitkat', 'rendezvous-endzone', 'flood-snapback-endzone', 'box-cut-iso', 'layout-progression', 'break-throwing', 'swiss-drill', 'diagonal-lead-passes', 'x-drill', 'line-break-active-force',
     'continuations-to-huck', 'intelligent-hucking', 'break-for-continuation', 'bucket-swings', 'throwing-toolbox',
     'hucking-from-flow', 'hillman', 'upline-break-cuts', 'upline-slash-deep', 'sideline-isolation', 'timing-under-cuts',
     'peppermills-3v3', 'windmill-under', 'ho-diamonds-pistons', 'sideline-power-position', 'sideline-bounce-cut', 'sealing-the-lane',
@@ -31,7 +31,7 @@ const SUGGESTED_LEVELS = {
     'unfair-scrimmage', 'scores-for-turns', 'bullies-scrimmage', 'oddo-reset', 'box-possession-3v3',
     'live-reset-2v2', 'continuous-five-box', 'lateral-vs-face-guard', 'uneven-3v4', 'triangle-cone-chase', 'triangle-plus-live',
     'hip-turn-cones', 'five-rep-downfield-d', 'off-the-line', 'zone-tube-4v3', 'four-corner-cup', 'waterfall-stack', 'goal-line-baseball'],
-  A: ['cyclone-huck', 'hex-mex-huck', 'japanese-handler-2v2', 'sideline-power-play', 'cyclone-handler-flow', 'peppermill-flow',
+  A: ['ho-staggered-deep', 'handler-strike', 'sailboat', 'ho-hucking-circuit', 'marking-as-a-pair', 'handler-help-lanes', 'handler-switches', 'over-the-top-zone-game', 'cyclone-huck', 'hex-mex-huck', 'japanese-handler-2v2', 'sideline-power-play', 'cyclone-handler-flow', 'peppermill-flow',
     'beating-poaches-side-stack', 'chevron-brick', 'reverse-zipper', 'poaching-the-lanes', 'cup-movement',
     'whole-cup-wings', 'break-containment', 'hasami-markers', 'triangle-reset-branches',
     'swing-party', 'bump-boom', 'sideline-break-scoring', 'wheel-sideline-cycle', 'triangle-of-death'],

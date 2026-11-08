@@ -17,6 +17,8 @@
     ...REDDIT_DRILLS.map(d => ({ ...d, source: 'web' })),
     ...SOURCED_DRILLS.map(d => ({ ...d, source: 'web' })),
     ...PLAYSPEDIA_DRILLS.map(d => ({ ...d, source: 'playspedia' })),
+    // Written for the club from openly shared coaching material (no credit line).
+    ...OPEN_DRILLS.map(d => ({ ...d, source: 'open' })),
   ];
 
   // Levels: only where a source states one. Everything else shows "Not graded"
@@ -168,7 +170,7 @@
     // previous step: mark where that player came from with a faint outline.
     {
       const at = [...(dia.o || []), ...(dia.d || [])].map(([, x, y]) => [x, y]);
-      const moves = [['run', 'ghost'], ['opt', 'ghost'], ['drun', 'ghost dg']];
+      const moves = [['run', 'ghost'], ['drun', 'ghost dg']];
       const ends = [...moves.map(([k]) => k), 'throw'].flatMap(k => (dia[k] || []).map(c => [c[2], c[3]]));
       moves.forEach(([k, cls]) => (dia[k] || []).forEach(([x, y]) => {
         if (![...at, ...ends].some(([px, py]) => Math.hypot(px - x, py - y) < 3)) parts.push(`<circle cx="${x}" cy="${y}" r="${r}" class="${cls}"/>`);
@@ -475,7 +477,19 @@ ${list.length ? '' : '<p class="muted">No drills in this plan yet. Go to the <a 
     'backhand': { tags: ['Throwing'], max: 6 },
     'forehand': { tags: ['Throwing'], max: 6 },
     'offence': { tags: ['Flow offence', 'Hex', 'Fast break'] },
+    'cutting-basics': { ids: ['shadow-continuation', 'all-in-one-receiving', 'attack-the-under'], tags: ['Cutting'], max: 8 },
+    'catching': { ids: ['catching-box', 'reading-the-disc', 'all-in-one-receiving'], tags: ['Catching'], max: 8 },
+    'side-stack': { tags: ['Side stack'] },
+    'person-defence': { ids: ['danger-zone-boxes'], tags: ['Marking', 'Match defence'], max: 10 },
+    'help-defence': { tags: ['Team defence', 'Switching', 'Bracketing'] },
   };
+  // Diagram for a written page: same defender spacing and auto-framing as drills.
+  function pageDiagram(dia) {
+    const copy = JSON.parse(JSON.stringify(dia));
+    fitViews({ steps: [{ dia: copy }] });
+    return diagram(copy);
+  }
+
   function forPage(slug) {
     const f = FOR_PAGE[slug]; if (!f) return animBox(slug);
     const seen = new Set(); const out = [];
@@ -664,7 +678,7 @@ ${creditLine(d)}`;
   }
 
   window.DrillLib = {
-    list, detail, wireList, BY_ID, LEGACY, session, wireSession, wirePicks, loadShared, forPage, collection, wireCollection, diagram, planData,
+    list, detail, wireList, BY_ID, LEGACY, session, wireSession, wirePicks, loadShared, forPage, collection, wireCollection, diagram, pageDiagram, planData,
     setTag(tag) { state = { q: '', players: 0, cat: '', tags: [tag], level: '' }; page = 1; save(); },
     setCategory(cat) { state = { q: '', players: 0, cat, tags: [], level: '' }; page = 1; save(); },
     // For site search.
