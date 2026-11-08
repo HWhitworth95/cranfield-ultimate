@@ -482,6 +482,8 @@ ${list.length ? '' : '<p class="muted">No drills in this plan yet. Go to the <a 
     'side-stack': { tags: ['Side stack'] },
     'person-defence': { ids: ['danger-zone-boxes'], tags: ['Marking', 'Match defence'], max: 10 },
     'help-defence': { tags: ['Team defence', 'Switching', 'Bracketing'] },
+    'wall-zone': { ids: ['zone-moving-unit', 'beat-the-wall', 'box-trolls', 'zone-jailbreak-game', 'zone-to-match-game', 'zone-variations-games', 'junk-zone-roles'] },
+    'hybrid-defences': { ids: ['fred-walkthrough', 'wilma-box'], tags: ['Zone defence'], max: 6 },
   };
   // Diagram for a written page: same defender spacing and auto-framing as drills.
   function pageDiagram(dia) {
