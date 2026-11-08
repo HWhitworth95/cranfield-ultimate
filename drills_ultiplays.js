@@ -261,10 +261,10 @@ const ULTI_DRILLS = [
     setup: 'A on the brick, marked by D1. Reset B 5 m to the break side. Cutter C 10 m downfield and 5 m towards the open side; cutter E level with C, 5 m from the break sideline.',
     steps: [
       { text: 'C cuts under to the break side. A breaks the mark to C; B immediately attacks upfield for the dish. E moves away from the sideline to widen the next lane, then cuts away for B.',
-        dia: { view: [4, 8, 37, 46], side: 'right', o: [['A', 18, 40], ['B', 24, 41], ['C', 22, 30], ['E', 32, 30]], d: [['D1', 16.5, 38.5]], disc: 'A',
+        dia: { view: [4, 8, 37, 46], side: 'right', o: [['A', 18, 40], ['B', 24, 41], ['C', 22, 30], ['E', 32, 30]], d: [['D1', 19.5, 38.5]], disc: 'A',
           run: [[22, 30, 27, 35, 0], [24, 41, 27, 30, 0], [32, 30, 29, 20, 0]], throw: [[18, 40, 27, 35.5, -3], [27, 35, 27, 30.5, 0]] } },
       { text: 'If A can\'t hit C, C clears wide with head up. Around stall 4–5, B cuts up the line on the break side to catch in power position and hit E going away or coming under.',
-        dia: { view: [4, 8, 37, 46], side: 'right', o: [['A', 18, 40], ['B', 24, 41], ['C', 32, 33], ['E', 30, 28]], d: [['D1', 16.5, 38.5]], disc: 'A',
+        dia: { view: [4, 8, 37, 46], side: 'right', o: [['A', 18, 40], ['B', 24, 41], ['C', 32, 33], ['E', 30, 28]], d: [['D1', 19.5, 38.5]], disc: 'A',
           run: [[24, 41, 26, 31, 0], [30, 28, 29, 18, 0]], throw: [[18, 40, 26, 31.5, -2.5]] } },
     ],
     tips: ['The dish works because B\'s defender is usually trailing after the break.', 'Clearing cutters stay live: keep your head up as you clear.'],

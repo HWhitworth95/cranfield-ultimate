@@ -28,7 +28,7 @@ ULTI_DRILLS.push(
     steps: [
       { text: 'C makes a fake under cut to the open side while A pump-fakes hard the same way to pull the marker over.',
         dia: { view: [4, 8, 32, 46], o: [['A', 18, 40], ['B', 18, 33], ['E', 18, 30.5], ['F', 18, 28], ['C', 18, 25]], d: [['D1', 16.5, 38.6]], disc: 'A', run: [[18, 25, 25, 31, 0]] } },
-      { text: 'A steps across and breaks to the break side; B runs laterally out of the front of the stack to catch it. C turns and goes away.',
+      { text: 'The mark has bitten on the fake and shifted across. A steps the other way and breaks to the break side; B runs laterally out of the front of the stack to catch it. C turns and goes away.',
         dia: { view: [4, 8, 32, 46], o: [['A', 18, 40], ['B', 18, 33], ['E', 18, 30.5], ['F', 18, 28], ['C', 25, 31]], d: [['D1', 19.5, 38.6]], disc: 'A',
           run: [[18, 33, 10, 34, 0], [25, 31, 24, 15, 0]], throw: [[18, 40, 10.5, 34.5, -2]] } },
       { text: 'B hits C away. With the disc already on the break side, the marker chasing B can\'t take the away throw.',

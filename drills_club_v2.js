@@ -213,7 +213,7 @@ const CLUB_V2 = {
     srcnote: 'The original page shows this as diagrams only; the descriptions are our reading of them.',
     steps: [
       { text: 'A cuts up the line on the break side and receives from B.',
-        dia: { view: CV, o: [['B', 6, 44], ['A', 22, 44], ['1', 12, 26], ['2', 15, 26], ['3', 18, 26], ['4', 21, 26], ['5', 24, 26]], d: [['', 7.5, 45], ['', 21, 45.5], ['', 13, 27.5], ['', 16, 27.5], ['', 19, 27.5], ['', 22, 27.5], ['', 25, 27.5]], disc: 'B',
+        dia: { view: CV, o: [['B', 6, 44], ['A', 22, 44], ['1', 12, 26], ['2', 15, 26], ['3', 18, 26], ['4', 21, 26], ['5', 24, 26]], d: [['', 4.5, 45], ['', 21, 45.5], ['', 13, 27.5], ['', 16, 27.5], ['', 19, 27.5], ['', 22, 27.5], ['', 25, 27.5]], disc: 'B',
           run: [[22, 44, 20, 41, 0], [20, 41, 7, 36.5, 0]], throw: [[6, 44, 6.5, 37.2, 1]], note: [['break side', 6, 20], ['open side', 30, 20]] } },
       { text: 'A stack cutter cuts upfield towards the break side for the continuation, then the next cutter keeps it going further up the break side.',
         dia: { view: CV, o: [['A', 7, 36.5], ['1', 12, 26], ['2', 15, 26], ['3', 6, 28], ['5', 24, 26]], d: [['', 13, 27.5], ['', 16, 27.5], ['', 8, 30], ['', 25, 27.5]], disc: 'A',
